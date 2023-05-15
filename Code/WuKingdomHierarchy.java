@@ -212,7 +212,7 @@ public class WuKingdomHierarchy {
             try {
                 //Enter the general to be removed
                 System.out.println("Please enter the general to be removed in this format");
-                System.out.print("[name,strength,intelligence] or 0 to quit: ");
+                System.out.print("[name,strength,intelligence] or 0 to exit: ");
                 String remGeneral = sc.nextLine();
 
                 //to exit interface
