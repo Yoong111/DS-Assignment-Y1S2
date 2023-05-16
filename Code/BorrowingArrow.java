@@ -351,7 +351,6 @@ class StrawMen {
         this.direction = direction;
         this.initialNumStrawMen = initialNumStrawMen;
         this.mode = mode;
-        //Automatically change numStrawMen based on countUsed
         numStrawMen = computeNumStrawMenLeft();
     }
 
