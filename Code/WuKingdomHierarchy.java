@@ -62,14 +62,14 @@ public class WuKingdomHierarchy {
                 //Add General
                 case "3":
                     a.addGeneral(root);
-                    System.out.println("Enter to go back to Wu Kingdom Hierarchy Main page");
+                    System.out.println("Enter to go back to \"Wu Kingdom Hierarchy\" page");
                     option.nextLine();
                     break;
 
                 //Remove General 
                 case "4":
                     a.removeGeneral(root);
-                    System.out.println("Enter to go back to Wu Kingdom Hierarchy Main page");
+                    System.out.println("Enter to go back to \"Wu Kingdom Hierarchy\" page");
                     option.nextLine();
                     break;
 
