@@ -86,9 +86,9 @@ public class SortingGenerals {
         
         // Bubble Sort Algorithm
         boolean needNextPass = true;
-        for (int k = 1 ; k < arrList.size() - 1 && needNextPass ; k++) {
+        for (int k = 1 ; k < arrList.size() && needNextPass ; k++) {
             needNextPass = false;
-            for (int i = 0 ; i < arrList.size() - 1 ; i++) {
+            for (int i = 0 ; i < arrList.size() - k ; i++) {
                 if (arrList.get(i).getIntelligence() < arrList.get(i + 1).getIntelligence()) {
                     TreeNode buffer = arrList.get(i + 1);
                     arrList.remove(buffer);
