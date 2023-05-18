@@ -58,7 +58,7 @@ public class SoldierArrangement {
                     default : System.out.println("Invalid input : " + reply + ", allowed inputs : [1,2,3,4,5,6,-1]");
                 }
                 System.out.println("\n--------------------------------------------------------\n");
-            } else if (reply.contains("-1")){
+            } else if (reply.equals("-1")){
                 return;
             } else {
                 System.out.println("Invalid input : " + reply + ", allowed inputs : [1,2,3,4,5,6,-1]");
@@ -79,7 +79,7 @@ public class SoldierArrangement {
             System.out.println("-1 Exit Page");
             System.out.print("\nPlease Select: ");
             String reply = input.nextLine();
-            if (reply.contains("-1")) return;
+            if (reply.equals("-1")) return;
             System.out.print("Enter the ability score : ");
             String scoreStr = input.nextLine();
             System.out.println("\n--------------------------------------------------------\n");
@@ -129,8 +129,6 @@ public class SoldierArrangement {
                     System.out.println("No General available");
                     System.out.println("\n--------------------------------------------------------\n");
                 }
-            } else if (reply.contains("-1")){
-                return;
             } else if (!reply.matches("\\d")){
                 System.out.println("Invalid input : " + reply + ", allowed inputs : [1,2,3,4,5,-1]");
                 System.out.println("\n--------------------------------------------------------\n");
