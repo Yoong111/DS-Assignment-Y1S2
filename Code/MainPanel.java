@@ -18,6 +18,7 @@ public class MainPanel {
 
         // Initialization of class
         WuKingdomHierarchy kingdom = new WuKingdomHierarchy();
+        SoldierArrangement generals = new SoldierArrangement();
         BorrowingArrow arrow = new BorrowingArrow();
 
         System.out.println("Welcome to the Wu Kingdom War Strategy System");
@@ -37,6 +38,8 @@ public class MainPanel {
             System.out.println("\n--------------------------------------------------------\n");
             if (selection.equals("1")) {
                 kingdom.wkhSelection();
+            } else if (selection.equals("2")) {
+                generals.soldierArrangementSelection();
             } else if (selection.equals("3")) {
                 arrow.borrowingArrowSelection();
             } else if (selection.equals("-1")) {
