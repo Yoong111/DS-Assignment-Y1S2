@@ -30,7 +30,7 @@ public class SoldierArrangement {
         hitPoint = sort.sortHitPointList();
     }
     
-    public void SASelection() {
+    public void soldierArrangementSelection() {
         while (true) {
             Scanner input = new Scanner(System.in);
             System.out.println("Soldier's arrangement based on :");
