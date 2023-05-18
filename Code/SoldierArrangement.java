@@ -21,7 +21,7 @@ public class SoldierArrangement {
     private ArrayList<TreeNode> hitPoint;
     private SortingGenerals sort;
     
-    SoldierArrangement() {
+    private void init() {
         sort = new SortingGenerals();
         leadership = sort.sortLeadershipList();
         strength = sort.sortStrengthList();
@@ -31,6 +31,7 @@ public class SoldierArrangement {
     }
     
     public void soldierArrangementSelection() {
+        init();
         while (true) {
             Scanner input = new Scanner(System.in);
             System.out.println("Soldier's arrangement based on :");
