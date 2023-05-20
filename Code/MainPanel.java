@@ -20,6 +20,7 @@ public class MainPanel {
         WuKingdomHierarchy kingdom = new WuKingdomHierarchy();
         SoldierArrangement generals = new SoldierArrangement();
         BorrowingArrow arrow = new BorrowingArrow();
+        EncryptedText secret = new EncryptedText();
 
         System.out.println("Welcome to the Wu Kingdom War Strategy System");
         Scanner select = new Scanner(System.in);
@@ -42,7 +43,9 @@ public class MainPanel {
                 generals.soldierArrangementSelection();
             } else if (selection.equals("3")) {
                 arrow.borrowingArrowSelection();
-            } else if (selection.equals("-1")) {
+            } else if (selection.equals("6")) {
+                secret.encryptedTextSelection();
+            }  else if (selection.equals("-1")) {
                 break;
             } else {
                 System.out.println("Unrecognized selection. Please key in again.\n");
