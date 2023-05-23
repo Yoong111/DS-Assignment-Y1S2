@@ -21,11 +21,12 @@ public class MainPanel {
         SoldierArrangement generals = new SoldierArrangement();
         BorrowingArrow arrow = new BorrowingArrow();
         EncryptedText secret = new EncryptedText();
+        FoodHarvesting food = new FoodHarvesting();
 
         System.out.println("Welcome to the Wu Kingdom War Strategy System");
         Scanner select = new Scanner(System.in);
         while (true) {
-            System.out.println("1 Wu Kingdom's Hierarchy");
+            System.out.println("\n1 Wu Kingdom's Hierarchy");
             System.out.println("2 Soldier's Arrangement");
             System.out.println("3 Borrowing Arrows with Straw Boats");
             System.out.println("4 Enemy Fortress Attack Simulation");
@@ -43,7 +44,9 @@ public class MainPanel {
                 generals.soldierArrangementSelection();
             } else if (selection.equals("3")) {
                 arrow.borrowingArrowSelection();
-            } else if (selection.equals("6")) {
+            } else if (selection.equals("5")) {
+                food.foodHarvestingSelection();
+            }else if (selection.equals("6")) {
                 secret.encryptedTextSelection();
             }  else if (selection.equals("-1")) {
                 break;
