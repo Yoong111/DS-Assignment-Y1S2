@@ -24,10 +24,31 @@ public class EngagingCaoCao {
     private static final int EXIT = 3;
 
     private static List<Integer> path;
+    static Scanner sc = new Scanner(System.in);
 
     public void engagingCCSelection() {
-        path = findPath();
-        displayPath();
+        System.out.println("<<< Engaging CaoCao >>>\n");
+        System.out.println("Finally, Cao Cao lost The Battle of Red Cliff. He retreated away from the river via Hua\n" +
+                "Rong Road and managed to escape. Hua Rong Road is a road with complex terrains.\n" +
+                "Show how Cao Cao might have retreated from Hua Rong Road so that Liu Bei and\n" +
+                "Zhao Yun can catch up with him. Besides, Guan Yu is ahead and is engaging Cao Cao\n" +
+                "at the exit of the maze.");
+        System.out.println("\n2D maze of Hua Rong Road: ");
+        System.out.println("(2 denotes the starting point. 3 denotes the exit of the maze.)");
+
+        for (int row = 0; row < MAZE.length; row++) {
+            for (int col = 0; col < MAZE[row].length; col++) {
+                System.out.print(MAZE[row][col] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("\n--------------------------------------------------------\n");
+        System.out.println("Enter 1 to find the path: ");
+        if(sc.nextInt()==1){
+            path = findPath();
+            displayPath();
+        }
+
     }
 
     private static List<Integer> findPath() {
@@ -96,12 +117,16 @@ public class EngagingCaoCao {
     }
 
     private static void displayPath() {
-        int[][] pathMatrix = new int[ROWS][COLS];
+        char[][] pathMatrix = new char[ROWS][COLS];
 
         // Initialize pathMatrix with the maze
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
-                pathMatrix[row][col] = MAZE[row][col];
+                if (MAZE[row][col] == 1 || MAZE[row][col] == 0) {
+                    pathMatrix[row][col] = (char) (MAZE[row][col] + '0'); // Convert 1 and 0 to char
+                } else {
+                    pathMatrix[row][col] = ' '; // Leave other numbers as they are
+                }
             }
         }
 
@@ -109,15 +134,20 @@ public class EngagingCaoCao {
         for (int position : path) {
             int row = position / COLS;
             int col = position % COLS;
-            pathMatrix[row][col] = 9; // Mark as path
+            pathMatrix[row][col] = '#'; // Mark as path with hashes
         }
 
         // Display the path matrix
+        System.out.println("\nPath of how Cao Cao might have escaped: ");
+        System.out.println("(# represents the path)");
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
                 System.out.print(pathMatrix[row][col] + " ");
             }
-            System.out.println("9 is the path");
+            System.out.println();
         }
+        System.out.println("\n--------------------------------------------------------\n");
+
     }
+
 }
