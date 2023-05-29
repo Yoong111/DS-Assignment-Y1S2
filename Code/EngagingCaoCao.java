@@ -53,7 +53,7 @@ public class EngagingCaoCao {
     }
 
     private static List<Integer> findPath() {
-        Queue<Integer> queue = new LinkedList<>();
+        LinkedList<Integer> queue = new LinkedList<>();
         Map<Integer, Integer> parentMap = new HashMap<>();
         boolean[][] visited = new boolean[ROWS][COLS];
 
