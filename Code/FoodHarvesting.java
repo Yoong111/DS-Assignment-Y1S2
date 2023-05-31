@@ -52,7 +52,6 @@ public class FoodHarvesting {
     public void foodHarvestingSelection() {
         Scanner sc = new Scanner(System.in);
 
-        // Example input: adjacency list and node without food
         adjacencyList.put(1, Arrays.asList(2, 3, 6, 10));
         adjacencyList.put(2, Arrays.asList(1, 4));
         adjacencyList.put(3, Arrays.asList(1, 4, 7));
