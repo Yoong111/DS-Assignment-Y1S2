@@ -23,7 +23,7 @@ public class MainPanel {
         EncryptedText secret = new EncryptedText();
         FoodHarvesting food = new FoodHarvesting();
         EngagingCaoCao caoCao = new EngagingCaoCao();
-        AttackSimulationExtra attack  = new AttackSimulationExtra();
+        AttackSimulationExtra attackExtra  = new AttackSimulationExtra();
 
         System.out.println("Welcome to the Wu Kingdom War Strategy System");
         Scanner select = new Scanner(System.in);
@@ -55,7 +55,7 @@ public class MainPanel {
             } else if (selection.equals("8")) {
                 caoCao.engagingCCSelection();
             } else if (selection.equals("9")) {
-                attack.attackSelection();
+                attackExtra.attackSelection();
             } else if (selection.equals("-1")) {
                 break;
             } else {

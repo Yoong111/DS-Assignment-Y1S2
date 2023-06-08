@@ -257,7 +257,7 @@ public class AttackSimulationExtra {
                 }
                 else if(generalType==2){ //archer
                     if(Objects.equals(combo.getType(), "flat")) {time = (double) combo.getDistance()/( 1*2);}
-                    if(Objects.equals(combo.getType(), "forest")){ time = (double) combo.getDistance()/(1*1);}
+                    if(Objects.equals(combo.getType(), "forest")){ time = (double) combo.getDistance();}
                     if(Objects.equals(combo.getType(), "swamp")) {time = (double) combo.getDistance()/(1*2.5);}
                     if(Objects.equals(combo.getType(), "plank")) {time = (double) combo.getDistance()/(1*0.5);}
                 }
