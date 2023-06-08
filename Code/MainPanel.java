@@ -62,7 +62,7 @@ public class MainPanel {
                 System.out.println("Unrecognized selection. Please key in again.\n");
             }
         }
-        System.out.println("Thanks for visiting Wu Kingdom War Strategy System\n");
+        System.out.println("Thanks for visiting Wu Kingdom War Strategy System.\n");
 
     }
 
