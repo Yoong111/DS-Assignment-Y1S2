@@ -23,6 +23,7 @@ public class MainPanel {
         EncryptedText secret = new EncryptedText();
         FoodHarvesting food = new FoodHarvesting();
         EngagingCaoCao caoCao = new EngagingCaoCao();
+        AttackSimulationExtra attackExtra = new AttackSimulationExtra();
 
         System.out.println("Welcome to the Wu Kingdom War Strategy System");
         Scanner select = new Scanner(System.in);
