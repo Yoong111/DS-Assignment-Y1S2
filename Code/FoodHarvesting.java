@@ -30,7 +30,7 @@ public class FoodHarvesting {
         }
 
         visited[currentNode] = false;
-        
+
         // Add possible path to longestPaths
         if (neighbors != null) {
             // normal case ~ node without food cant be passed through
@@ -38,7 +38,7 @@ public class FoodHarvesting {
                 if (currentPath.size() == 8 && neighbors.contains(1)) { // Ensure the last node is connected to 1
                     longestPaths.add(new ArrayList<>(currentPath));
                 }
-            // special case ~ all nodes includes node without food have to be passed through
+                // special case ~ all nodes includes node without food have to be passed through
             } else {
                 if (currentPath.size() == 9 && neighbors.contains(1)) { // Ensure the last node is connected to 1
                     longestPaths.add(new ArrayList<>(currentPath));
@@ -120,7 +120,7 @@ public class FoodHarvesting {
         }
 
         longestPaths.clear();
-        
+
         // Find all possible paths
         List<List<Integer>> paths = findPaths(adjacencyList_temp, 1, new ArrayList<>(), nodeWithoutFood);
 
