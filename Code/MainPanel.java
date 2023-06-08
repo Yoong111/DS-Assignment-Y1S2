@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class MainPanel {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
 
         // Initialization of class
         WuKingdomHierarchy kingdom = new WuKingdomHierarchy();
@@ -23,7 +23,6 @@ public class MainPanel {
         EncryptedText secret = new EncryptedText();
         FoodHarvesting food = new FoodHarvesting();
         EngagingCaoCao caoCao = new EngagingCaoCao();
-        AttackSimulationExtra attackExtra  = new AttackSimulationExtra();
 
         System.out.println("Welcome to the Wu Kingdom War Strategy System");
         Scanner select = new Scanner(System.in);
@@ -37,7 +36,6 @@ public class MainPanel {
             System.out.println("7 Red Cliff on Fire");
             System.out.println("8 Engaging Cao Cao at Hua Rong Road");
             System.out.println("9 Enemy Fortress Attack Simulation Extra");
-
             System.out.println("-1 Exit Interface");
             System.out.print("\nPlease select: ");
             String selection = select.nextLine();
@@ -62,7 +60,7 @@ public class MainPanel {
                 System.out.println("Unrecognized selection. Please key in again.\n");
             }
         }
-        System.out.println("Thank you for visiting Wu Kingdom War Strategy System\n");
+        System.out.println("Thanks for visiting Wu Kingdom War Strategy System\n");
 
     }
 
