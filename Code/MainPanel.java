@@ -35,6 +35,7 @@ public class MainPanel {
             System.out.println("6 Encrypted Text");
             System.out.println("7 Red Cliff on Fire");
             System.out.println("8 Engaging Cao Cao at Hua Rong Road");
+            System.out.println("9 Enemy Fortress Attack Simulation Extra");
             System.out.println("-1 Exit Interface");
             System.out.print("\nPlease select: ");
             String selection = select.nextLine();
@@ -51,6 +52,8 @@ public class MainPanel {
                 secret.encryptedTextSelection();
             } else if (selection.equals("8")) {
                 caoCao.engagingCCSelection();
+            } else if (selection.equals("9")) {
+                attackExtra.attackSelection();
             } else if (selection.equals("-1")) {
                 break;
             } else {
