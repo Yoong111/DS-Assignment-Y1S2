@@ -5,7 +5,6 @@ import java.util.*;
 
 import static assignment_ds.AttackAdvanced.createGraph;
 import static assignment_ds.AttackAdvanced.createGraphExtra;
-import static assignment_ds.EngagingCaoCao.sc;
 
 public class AttackSimulation {
 
@@ -192,6 +191,8 @@ public class AttackSimulation {
 
     public void attackAdvanced() {
 
+        Scanner sc = new Scanner (System.in);
+
         System.out.println("--------------------------------------------------------\n");
 
         Map<Integer, List<Combo>> adjacencyList = new HashMap<>();
@@ -326,7 +327,7 @@ class AttackBasic {
 
     public List<List<Integer>> findPaths(int src, int dest) {
         List<List<Integer>> paths = new ArrayList<>();
-        LinkedList<List<Integer>> queue = new LinkedList<>();
+        Queue<List<Integer>> queue = new LinkedList<>();
         List<Integer> initialPath = new ArrayList<>();
         initialPath.add(src);
         queue.offer(initialPath);
@@ -405,13 +406,13 @@ class AttackAdvanced {
 
         String generalTypeName = switch (generalType) {
             case 1 ->
-                "Cavalry";
+                    "Cavalry";
             case 2 ->
-                "Archer";
+                    "Archer";
             case 3 ->
-                "Infantry";
+                    "Infantry";
             default ->
-                " ";
+                    " ";
         };
         System.out.println("\nGeneral Type: " + generalTypeName + "\n");
 
