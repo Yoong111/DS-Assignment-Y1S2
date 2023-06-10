@@ -66,7 +66,7 @@ public class FoodHarvesting {
         System.out.println("<<< Food Harvesting >>>\n");
         System.out.println("We need to depart from Sun Wu’s camp (Node 1) and harvest all of the food on each\n"
                 + "node and back to Sun Wu’s camp without passing through a node twice.\n"
-                + "This system will show the path.");
+                + "This system will show the path. ");
         System.out.println("\n--------------------------------------------------------\n");
 
         int nodeWithoutFood = 0;

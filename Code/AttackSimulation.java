@@ -391,7 +391,7 @@ class AttackAdvanced {
         printShortestPaths(prev, startNode, enemyNode);
         // Print total time taken
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        System.out.print("\nTotal time taken: " + decimalFormat.format(time[enemyNode]) + " hours\n");
+        System.out.print("\nTotal time taken: " + decimalFormat.format(time[enemyNode]) + " hours \n");
     }
 
     private static double getMinTime(double[] time, boolean[] visited) {
