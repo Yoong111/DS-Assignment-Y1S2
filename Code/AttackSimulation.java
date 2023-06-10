@@ -1,4 +1,5 @@
 package assignment_ds;
+
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -7,6 +8,7 @@ import static assignment_ds.AttackAdvanced.createGraphExtra;
 import static assignment_ds.EngagingCaoCao.sc;
 
 public class AttackSimulation {
+
     public void attackSelection() {
         while (true) {
             Scanner sc = new Scanner(System.in);
@@ -66,7 +68,7 @@ public class AttackSimulation {
         }
     }
 
-    public void attackBasic () {
+    public void attackBasic() {
         int V = 10; // number of nodes
 
         AttackBasic graph = new AttackBasic(V);
@@ -132,12 +134,30 @@ public class AttackSimulation {
             System.out.println();
         }
 
-
         Scanner sc = new Scanner(System.in);
         System.out.print("\nEnter the destination node: ");
+        int dest = 0;
+
+        while (true) {
+
+            System.out.print("Enter Node Without Food [-1 to exit]: ");
+
+            try {
+                dest = sc.nextInt();
+                if ((dest < 2 || dest > 10) && dest != -1) {
+                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]\n");
+                }
+                break;
+            } catch (InputMismatchException ex) {
+                System.out.println("Invalid input. Input must be an integer.\n");
+                sc.next();
+            } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        sc.nextLine(); // Avoid Scanner skipping line problem
 
         int src = 1;
-        int dest = sc.nextInt();
 
         List<List<Integer>> paths = graph.findPaths(src, dest);
 
@@ -169,7 +189,6 @@ public class AttackSimulation {
             }
         }
     }
-
 
     public void attackAdvanced() {
 
@@ -230,7 +249,8 @@ public class AttackSimulation {
         }
         sc.nextLine(); // Avoid Scanner skipping line problem
         if (enemyNode == -1) {
-            attackSelection(); return;
+            attackSelection();
+            return;
         }
 
         int generalType = 0;
@@ -271,7 +291,8 @@ public class AttackSimulation {
         }
         sc.nextLine(); // Avoid Scanner skipping line problem
         if (generalType == -1) {
-            attackSelection(); return;
+            attackSelection();
+            return;
         }
         int startNode = 1; // Starting node index
 
@@ -283,6 +304,7 @@ public class AttackSimulation {
 }
 
 class AttackBasic {
+
     private final LinkedList<Integer>[] adjList;
 
     public AttackBasic(int v) {
@@ -304,7 +326,7 @@ class AttackBasic {
 
     public List<List<Integer>> findPaths(int src, int dest) {
         List<List<Integer>> paths = new ArrayList<>();
-        Queue<List<Integer>> queue = new LinkedList<>();
+        LinkedList<List<Integer>> queue = new LinkedList<>();
         List<Integer> initialPath = new ArrayList<>();
         initialPath.add(src);
         queue.offer(initialPath);
@@ -338,7 +360,9 @@ class AttackBasic {
         return lengths;
     }
 }
+
 class AttackAdvanced {
+
     private static final double INF = Double.POSITIVE_INFINITY;
 
     public static void dijkstra(double[][] graph, int startNode, int enemyNode, int generalType) {
@@ -359,8 +383,8 @@ class AttackAdvanced {
 
             // Update the time of the neighboring nodes
             for (int v = 0; v < n; v++) {
-                if (!visited[v] && graph[u][v] != 0 && time[u] != INF &&
-                        time[u] + graph[u][v] < time[v]) {
+                if (!visited[v] && graph[u][v] != 0 && time[u] != INF
+                        && time[u] + graph[u][v] < time[v]) {
                     time[v] = time[u] + graph[u][v];
                     prev[v] = u;
                 }
@@ -370,8 +394,7 @@ class AttackAdvanced {
         int current;
         // Rest of the code...
 
-
-    // Reconstruct the shortest path
+        // Reconstruct the shortest path
         List<Integer> path = new ArrayList<>();
         current = startNode;
         while (current != -1) {
@@ -381,12 +404,16 @@ class AttackAdvanced {
         Collections.reverse(path);
 
         String generalTypeName = switch (generalType) {
-            case 1 -> "Cavalry";
-            case 2 -> "Archer";
-            case 3 -> "Infantry";
-            default -> " ";
+            case 1 ->
+                "Cavalry";
+            case 2 ->
+                "Archer";
+            case 3 ->
+                "Infantry";
+            default ->
+                " ";
         };
-        System.out.println("\nGeneral Type: " + generalTypeName+"\n");
+        System.out.println("\nGeneral Type: " + generalTypeName + "\n");
 
         printShortestPaths(prev, startNode, enemyNode);
         // Print total time taken
@@ -407,8 +434,6 @@ class AttackAdvanced {
 
         return minIndex;
     }
-
-
 
     private static void printShortestPaths(int[] prev, int startNode, int enemyNode) {
         List<Integer> path = new ArrayList<>();
@@ -517,7 +542,9 @@ class AttackAdvanced {
     }
 
 }
+
 class Combo<T> {
+
     private final int node;
     private final int distance;
     private final String type;
