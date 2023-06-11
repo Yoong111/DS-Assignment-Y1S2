@@ -34,6 +34,7 @@ public class WuKingdomHierarchy {
 
         while (true) {
             Scanner option = new Scanner(System.in);
+            System.out.println("<<< Wu Kingdom's Hierarchy >>>\n");
             System.out.println("1 Display Tree");
             System.out.println("2 Display Member's Ability Table");
             System.out.println("3 Add General");
@@ -419,13 +420,13 @@ public class WuKingdomHierarchy {
         Scanner sc = new Scanner(System.in);
 
         while (!isFound) {
-            
+
             //always reset isFound = false
             isFound = false;
 
             System.out.print("Enter Member Name [0 to exit]: ");
             String name = sc.nextLine();
-            
+
             if(name.equals("0"))
                 break;
 
@@ -456,11 +457,11 @@ public class WuKingdomHierarchy {
                 }
             }
 
-            if (!isFound) 
+            if (!isFound)
                 System.out.println("Unrecognized person. Please enter again.");
             else
                 break;
-            
+
         }
     }
 
