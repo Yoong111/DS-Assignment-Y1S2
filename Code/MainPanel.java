@@ -21,18 +21,23 @@ public class MainPanel {
         EngagingCaoCao caoCao = new EngagingCaoCao();
         AttackSimulation attack = new AttackSimulation();
 
-        System.out.println("Welcome to the Wu Kingdom War Strategy System");
+        System.out.println("Welcome to the Wu Kingdom War Strategy System!\n");
         Scanner select = new Scanner(System.in);
         while (true) {
-            System.out.println("\n1 Wu Kingdom's Hierarchy");
-            System.out.println("2 Soldier's Arrangement");
-            System.out.println("3 Borrowing Arrows with Straw Boats");
-            System.out.println("4 Enemy Fortress Attack Simulation");
-            System.out.println("5 Food Harvesting");
-            System.out.println("6 Encrypted Text");
-            System.out.println("7 Red Cliff on Fire");
-            System.out.println("8 Engaging Cao Cao at Hua Rong Road");
-            System.out.println("-1 Exit Interface");
+            System.out.println("=".repeat(40));
+            System.out.printf("%-15s%-24s%s%n", "|", "Main Panel", "|");
+            System.out.println("=".repeat(40));
+            System.out.printf("%-39s%s%n", "| 1 Wu Kingdom's Hierarchy", "|");
+            System.out.printf("%-39s%s%n", "| 2 Soldier's Arrangement", "|");
+            System.out.printf("%-39s%s%n", "| 3 Borrowing Arrows with Straw Boats", "|");
+            System.out.printf("%-39s%s%n", "| 4 Enemy Fortress Attack Simulation", "|");
+            System.out.printf("%-39s%s%n", "| 5 Food Harvesting", "|");
+            System.out.printf("%-39s%s%n", "| 6 Encrypted Text", "|");
+            System.out.printf("%-39s%s%n", "| 7 Red Cliff on Fire", "|");
+            System.out.printf("%-39s%s%n", "| 8 Engaging Cao Cao at Hua Rong Road", "|");
+            System.out.printf("%-39s%s%n", "| -1 Exit Interface", "|");
+            System.out.println("=".repeat(40));
+
             System.out.print("\nPlease select: ");
             String selection = select.nextLine();
             System.out.println("\n--------------------------------------------------------\n");

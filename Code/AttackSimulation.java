@@ -40,7 +40,7 @@ public class AttackSimulation {
                     System.out.print("<<<< [Normal] Enemy Fortress Attack Simulation >>>>\n");
                     System.out.print("~ Display all possible paths to reach the enemy fortress\n");
                     attackBasic();
-                    System.out.println("Enter to go back to \"Attack Simulation\" page");
+                    System.out.println("\nEnter to go back to \"Attack Simulation\" page");
                     sc.nextLine();
                     break;
                 //Advanced
@@ -116,7 +116,7 @@ public class AttackSimulation {
                 }
             }
         }
-        System.out.println("\nMap: (The starting node is Node 1)");
+        System.out.println("Map: (The starting node is Node 1)");
         // Print the matrix with indices
         System.out.print("  ");
         for (int i = 1; i <= V; i++) {
@@ -133,13 +133,11 @@ public class AttackSimulation {
         }
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("\nEnter the destination node: ");
+
         int dest = 0;
 
         while (true) {
-
-            System.out.print("Enter Node Without Food [-1 to exit]: ");
-
+            System.out.print("\nEnter the enemy node [-1 to exit]: ");
             try {
                 dest = sc.nextInt();
                 if ((dest < 2 || dest > 10) && dest != -1) {
@@ -186,6 +184,7 @@ public class AttackSimulation {
                 System.out.println();
             }
         }
+        System.out.println("\n--------------------------------------------------------");
     }
 
     public void attackAdvanced() {
@@ -210,7 +209,7 @@ public class AttackSimulation {
         int[][] graphforPrint = createGraph(adjacencyList);
 
         // Print the graph
-        System.out.print("\nMap: (The starting node is Node 1)\n");
+        System.out.print("Map: \n(The starting node is Node 1)\n");
 
 // Print column headers
         System.out.print("   ");
@@ -256,7 +255,7 @@ public class AttackSimulation {
         int generalType = 0;
 
         while (true) {
-            System.out.print("General Type\n" +
+            System.out.print("\nGeneral Type\n" +
                     "(1)Cavalry (Speed: 2km/h)\n" +
                     "\t Flat road - x3\n" +
                     "\t Forest - x0.8\n" +
@@ -272,7 +271,7 @@ public class AttackSimulation {
                     "\t Forest - x2.5\n" +
                     "\t Swamp - x1\n" +
                     "\t Plank road - x0.5\n" +
-                    "Select one general[-1 to exit]:"
+                    "\nSelect one general[-1 to exit]: "
             );
             try {
                 generalType = sc.nextInt();
@@ -295,12 +294,9 @@ public class AttackSimulation {
             return;
         }
         int startNode = 1; // Starting node index
-
+        System.out.println("\n--------------------------------------------------------");
         AttackAdvanced.dijkstra(createGraphExtra(adjacencyList, generalType), startNode, enemyNode, generalType);
-
-        System.out.println("\n--------------------------------------------------------\n");
     }
-
 }
 
 class AttackBasic {

@@ -42,9 +42,8 @@ public class EngagingCaoCao {
             }
             System.out.println();
         }
-        System.out.println("\n--------------------------------------------------------\n");
 
-        System.out.println("Enter to find the path: ");
+        System.out.println("\nEnter to find the path ");
         sc.nextLine();
 
         path = findPath();
@@ -139,7 +138,7 @@ public class EngagingCaoCao {
         }
 
         // Display the path matrix
-        System.out.println("\nPath of how Cao Cao might have escaped: ");
+        System.out.println("Path of how Cao Cao might have escaped: ");
         System.out.println("(. represents the path)");
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
@@ -147,8 +146,7 @@ public class EngagingCaoCao {
             }
             System.out.println();
         }
-        System.out.println("\n--------------------------------------------------------\n");
-
+        System.out.println("\nEnter to go back to Main Panel");
+        sc.nextLine();
     }
-
 }

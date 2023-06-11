@@ -67,13 +67,11 @@ public class FoodHarvesting {
         System.out.println("We need to depart from Sun Wu’s camp (Node 1) and harvest all of the food on each\n"
                 + "node and back to Sun Wu’s camp without passing through a node twice.\n"
                 + "This system will show the path. ");
-        System.out.println("\n--------------------------------------------------------\n");
-
+        printGraph();
         int nodeWithoutFood = 0;
-
         while (true) {
 
-            System.out.print("Enter Node Without Food [-1 to exit]: ");
+            System.out.print("\nEnter Node Without Food [-1 to exit]: ");
 
             try {
                 nodeWithoutFood = sc.nextInt();
@@ -141,13 +139,47 @@ public class FoodHarvesting {
         // Print the paths
         System.out.println("\nPaths:");
         for (List<Integer> path : paths) {
-            System.out.println(path);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < path.size() - 1; i++) {
+                sb.append(path.get(i)).append(" -> ");
+            }
+            sb.append(path.get(path.size() - 1));
+            System.out.println(sb.toString());
         }
 
         System.out.println("\n--------------------------------------------------------\n");
 
         System.out.println("Enter to go back to Main Panel");
         sc.nextLine();
+    }
+    public void printGraph() {
+        int size = adjacencyList.size();
+        int[][] matrix = new int[size][size];
+
+        // Initialize the matrix with 0s
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                matrix[i][j] = 0;
+            }
+        }
+
+        // Fill the matrix based on the adjacency list
+        for (Map.Entry<Integer, List<Integer>> entry : adjacencyList.entrySet()) {
+            Integer node = entry.getKey();
+            List<Integer> neighbors = entry.getValue();
+
+            for (int neighbor : neighbors) {
+                matrix[node - 1][neighbor - 1] = 1; // Subtract 1 to adjust for 0-based indexing
+            }
+        }
+        System.out.println("Map: ");
+        // Print the matrix
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
 
