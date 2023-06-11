@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package assignment_ds;
 
 import java.util.Scanner;
@@ -23,7 +19,7 @@ public class MainPanel {
         EncryptedText secret = new EncryptedText();
         FoodHarvesting food = new FoodHarvesting();
         EngagingCaoCao caoCao = new EngagingCaoCao();
-        AttackSimulation attackExtra = new AttackSimulation();
+        AttackSimulation attack = new AttackSimulation();
 
         System.out.println("Welcome to the Wu Kingdom War Strategy System");
         Scanner select = new Scanner(System.in);
@@ -36,7 +32,6 @@ public class MainPanel {
             System.out.println("6 Encrypted Text");
             System.out.println("7 Red Cliff on Fire");
             System.out.println("8 Engaging Cao Cao at Hua Rong Road");
-            System.out.println("9 Enemy Fortress Attack Simulation Extra ");
             System.out.println("-1 Exit Interface");
             System.out.print("\nPlease select: ");
             String selection = select.nextLine();
@@ -47,14 +42,14 @@ public class MainPanel {
                 generals.soldierArrangementSelection();
             } else if (selection.equals("3")) {
                 arrow.borrowingArrowSelection();
+            }else if (selection.equals("4")) {
+                attack.attackSelection();
             } else if (selection.equals("5")) {
                 food.foodHarvestingSelection();
             } else if (selection.equals("6")) {
                 secret.encryptedTextSelection();
             } else if (selection.equals("8")) {
                 caoCao.engagingCCSelection();
-            } else if (selection.equals("9")) {
-                attackExtra.attackSelection();
             } else if (selection.equals("-1")) {
                 break;
             } else {
