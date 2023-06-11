@@ -11,13 +11,12 @@ public class AttackSimulation {
     public void attackSelection() {
         while (true) {
             Scanner sc = new Scanner(System.in);
-            System.out.print("""
-                    <<< Enemy Attack Simulation >>>
-                    \s
-                    Welcome to the Enemy Attack Simulation system!\s
-                    The road to defeat the enemy is not a bed of roses, in fact, it is full of mazes and impending danger.\s
-                    But with the correct strategy and algorithm, surely we can defeat CaoCao with no sweat.\s
-                    """);
+            System.out.print(
+                    " <<< Enemy Attack Simulation >>>\n" +
+                            "\n" +
+                            "Welcome to the Enemy Attack Simulation system!\n" +
+                            "The road to defeat the enemy is not a bed of roses, in fact, it is full of mazes and impending danger.\n" +
+                            "But with the correct strategy and algorithm, surely we can defeat CaoCao with no sweat.\n");
 
             System.out.println("\n1 [Normal version] Enemy Fortress Attack Simulation");
             System.out.println("    ~ Display all possible paths to reach the enemy fortress");
@@ -257,24 +256,24 @@ public class AttackSimulation {
         int generalType = 0;
 
         while (true) {
-            System.out.print("""
-                    General Type\s
-                    (1)Cavalry (Speed: 2km/h)
-                    \t Flat road - x3
-                    \t Forest - x0.8
-                    \t Swamp - x0.3
-                    \t Plank road - x0.5
-                    (2)Archer (Speed: 1km/h)
-                    \t Flat road - x2
-                    \t Forest - x1
-                    \t Swamp - x2.5
-                    \t Plank road - x0.5
-                    (3)Infantry (Speed: 1km/h)
-                    \t Flat road - x2
-                    \t Forest - x2.5
-                    \t Swamp - x1
-                    \t Plank road - x0.5
-                    Select one general[-1 to exit]: """);
+            System.out.print("General Type\n" +
+                    "(1)Cavalry (Speed: 2km/h)\n" +
+                    "\t Flat road - x3\n" +
+                    "\t Forest - x0.8\n" +
+                    "\t Swamp - x0.3\n" +
+                    "\t Plank road - x0.5\n" +
+                    "(2)Archer (Speed: 1km/h)\n" +
+                    "\t Flat road - x2\n" +
+                    "\t Forest - x1\n" +
+                    "\t Swamp - x2.5\n" +
+                    "\t Plank road - x0.5\n" +
+                    "(3)Infantry (Speed: 1km/h)\n" +
+                    "\t Flat road - x2\n" +
+                    "\t Forest - x2.5\n" +
+                    "\t Swamp - x1\n" +
+                    "\t Plank road - x0.5\n" +
+                    "Select one general[-1 to exit]:"
+            );
             try {
                 generalType = sc.nextInt();
                 if ((generalType < 1 || generalType > 3) && generalType != -1) {
@@ -404,16 +403,14 @@ class AttackAdvanced {
         }
         Collections.reverse(path);
 
-        String generalTypeName = switch (generalType) {
-            case 1 ->
-                    "Cavalry";
-            case 2 ->
-                    "Archer";
-            case 3 ->
-                    "Infantry";
-            default ->
-                    " ";
-        };
+        String generalTypeName = "  ";
+        switch (generalType) {
+            case 1 : generalTypeName = "Cavalry";
+                break;
+            case 2 : generalTypeName = "Archer";
+                break;
+            case 3 : generalTypeName = "Infantry";
+        }
         System.out.println("\nGeneral Type: " + generalTypeName + "\n");
 
         printShortestPaths(prev, startNode, enemyNode);
