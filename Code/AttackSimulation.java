@@ -13,7 +13,8 @@ public class AttackSimulation {
             System.out.print("<<< Enemy Attack Simulation >>>\n");
             System.out.print("\nWelcome to the Enemy Attack Simulation system!\n");
             System.out.print(
-                            "The road to defeat the enemy is not a bed of roses, in fact, it is full of mazes and impending danger.\n" +
+                            "Before the Battle of the Red Cliff, Cao Cao had also built a fortress on the battlefield as\n" +
+                            "their headquarters. The path to the enemy fortress is full of mazes and impending danger.\n" +
                             "But with the correct strategy and algorithm, surely we can defeat CaoCao with no sweat.\n\n");
 
             System.out.print("1 [Normal version] Enemy Fortress Attack Simulation\n");
