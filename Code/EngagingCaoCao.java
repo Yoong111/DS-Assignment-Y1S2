@@ -27,12 +27,14 @@ public class EngagingCaoCao {
     static Scanner sc = new Scanner(System.in);
 
     public void engagingCCSelection() {
-        System.out.println("<<< Engaging CaoCao >>>\n");
-        System.out.println("Finally, Cao Cao lost The Battle of Red Cliff. He retreated away from the river via Hua\n"
+        System.out.println("<<< Engaging Cao Cao >>>\n");
+        System.out.println("Welcome to Engaging Cao Cao System!\n");
+        System.out.println(
+                  "Finally, Cao Cao lost The Battle of Red Cliff. He retreated away from the river via Hua\n"
                 + "Rong Road and managed to escape. Hua Rong Road is a road with complex terrains.\n"
-                + "Show how Cao Cao might have retreated from Hua Rong Road so that Liu Bei and\n"
-                + "Zhao Yun can catch up with him. Besides, Guan Yu is ahead and is engaging Cao Cao\n"
-                + "at the exit of the maze.");
+                + "We have to find how Cao Cao's escape route so that Liu Bei and Zhao Yun can catch up\n"
+                + "with him. Besides, Guan Yu is ahead and is engaging Cao Cao at the exit of the maze.\n"
+                + "This system will show how Cao Cao might have retreated from Hua Rong Road.");
         System.out.println("\n2D maze of Hua Rong Road: ");
         System.out.println("(2 denotes the starting point. 3 denotes the exit of the maze.)");
 
@@ -43,9 +45,9 @@ public class EngagingCaoCao {
             System.out.println();
         }
 
-        System.out.println("\nEnter to find the path ");
+        System.out.print("\nEnter to show Cao Cao's path");
         sc.nextLine();
-
+        System.out.println();
         path = findPath();
         displayPath();
 
@@ -146,7 +148,8 @@ public class EngagingCaoCao {
             }
             System.out.println();
         }
-        System.out.println("\nEnter to go back to Main Panel");
+        System.out.print("\nEnter to go back to Main Panel");
         sc.nextLine();
+        System.out.print("\n--------------------------------------------------------\n\n");
     }
 }

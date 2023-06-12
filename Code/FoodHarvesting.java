@@ -64,8 +64,13 @@ public class FoodHarvesting {
         adjacencyList.put(10, Arrays.asList(1, 8, 9));
 
         System.out.println("<<< Food Harvesting >>>\n");
-        System.out.println("We need to depart from Sun Wu’s camp (Node 1) and harvest all of the food on each\n"
-                + "node and back to Sun Wu’s camp without passing through a node twice.\n"
+        System.out.println("Welcome to Food Harvesting System!\n");
+        System.out.println(
+                  "We need to depart from Sun Wu’s camp (Node 1) and harvest all of the food on each\n"
+                + "node and back to Sun Wu’s camp without passing through a node twice. \n"
+                + "Sometimes, some of the nodes may not have food, so we may not need to go to that node.\n"
+                + "However, there are instances where we must pass through a node without food in order\n"
+                + "to harvest all food.\n"
                 + "This system will show the path. ");
         printGraph();
         int nodeWithoutFood = 0;
@@ -76,11 +81,11 @@ public class FoodHarvesting {
             try {
                 nodeWithoutFood = sc.nextInt();
                 if ((nodeWithoutFood < 2 || nodeWithoutFood > 10) && nodeWithoutFood != -1) {
-                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]\n");
+                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]");
                 }
                 break;
             } catch (InputMismatchException ex) {
-                System.out.println("Invalid input. Input must be an integer.\n");
+                System.out.println("Invalid input. Input must be an integer.");
                 // Clear the invalid input
                 sc.next();
             } catch (IllegalArgumentException ex) {
@@ -146,11 +151,10 @@ public class FoodHarvesting {
             sb.append(path.get(path.size() - 1));
             System.out.println(sb.toString());
         }
-
-        System.out.println("\n--------------------------------------------------------\n");
-
-        System.out.println("Enter to go back to Main Panel");
+        System.out.println();
+        System.out.print("Enter to go back to Main Panel");
         sc.nextLine();
+        System.out.print("\n--------------------------------------------------------\n\n");
     }
     public void printGraph() {
         int size = adjacencyList.size();
@@ -172,9 +176,16 @@ public class FoodHarvesting {
                 matrix[node - 1][neighbor - 1] = 1; // Subtract 1 to adjust for 0-based indexing
             }
         }
-        System.out.println("Map: ");
-        // Print the matrix
+
+        System.out.println("\nMap:");
+        System.out.print("   ");
+        for (int i = 1; i <= size; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
         for (int i = 0; i < size; i++) {
+            System.out.print((i + 1) + "  ");
             for (int j = 0; j < size; j++) {
                 System.out.print(matrix[i][j] + " ");
             }

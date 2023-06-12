@@ -3,29 +3,27 @@ package assignment_ds;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static assignment_ds.AttackAdvanced.createGraph;
-import static assignment_ds.AttackAdvanced.createGraphExtra;
+import static assignment_ds.AttackAdvanced.*;
 
 public class AttackSimulation {
 
     public void attackSelection() {
         while (true) {
             Scanner sc = new Scanner(System.in);
+            System.out.print("<<< Enemy Attack Simulation >>>\n");
+            System.out.print("\nWelcome to the Enemy Attack Simulation system!\n");
             System.out.print(
-                    " <<< Enemy Attack Simulation >>>\n" +
-                            "\n" +
-                            "Welcome to the Enemy Attack Simulation system!\n" +
                             "The road to defeat the enemy is not a bed of roses, in fact, it is full of mazes and impending danger.\n" +
-                            "But with the correct strategy and algorithm, surely we can defeat CaoCao with no sweat.\n");
+                            "But with the correct strategy and algorithm, surely we can defeat CaoCao with no sweat.\n\n");
 
-            System.out.println("\n1 [Normal version] Enemy Fortress Attack Simulation");
-            System.out.println("    ~ Display all possible paths to reach the enemy fortress");
-            System.out.println("    ~ Display the shortest paths to reach the enemy fortress\n");
+            System.out.print("1 [Normal version] Enemy Fortress Attack Simulation\n");
+            System.out.print("    ~ Display all possible paths to reach enemy's camp (BFS algorithm)\n");
+            System.out.print("    ~ Display the shortest path/s to reach enemy's camp\n\n");
 
-            System.out.println("2 [Advanced version] Enemy Fortress Attack Simulation");
-            System.out.println("    ~ Display best path with shortest time to reach the enemy fortress ");
-            System.out.println("    ~ A general will lead the troupe");
-            System.out.println("    ~ Map will have different types of road, influencing the speed of troupe\n");
+            System.out.print("2 [Advanced version] Enemy Fortress Attack Simulation\n");
+            System.out.print("    ~ Display the best path with shortest time to reach enemy's camp (Djikstra's algorithm)\n");
+            System.out.print("    ~ Choose one from 3 generals to lead the troupe\n");
+            System.out.print("    ~ Each general will have different speeds based on the road condition of the map\n\n");
 
             System.out.println("-1 Exit Page");
             System.out.print("\nPlease Select: ");
@@ -35,23 +33,27 @@ public class AttackSimulation {
             System.out.println("\n--------------------------------------------------------\n");
 
             switch (opt) {
-                //Basic
-                case "1":
+                case "1": //normal
                     System.out.print("<<<< [Normal] Enemy Fortress Attack Simulation >>>>\n");
-                    System.out.print("~ Display all possible paths to reach the enemy fortress\n");
-                    attackBasic();
-                    System.out.println("\nEnter to go back to \"Attack Simulation\" page");
+                    System.out.print("~ Display all possible paths to reach enemy's camp (BFS algorithm)\n");
+                    System.out.print("~ Display the shortest path/s to reach enemy's camp\n\n");
+                    attackNormal();
+                    //System.out.print("\n--------------------------------------------------------\n");
+                    System.out.print("\nEnter to go back to \"Attack Simulation\" page");
                     sc.nextLine();
+                    System.out.print("\n--------------------------------------------------------\n\n");
                     break;
-                //Advanced
-                case "2":
-                    System.out.print("<<<< [Advanced version] Dynamic Borrowing Arrows >>>>\n");
-                    System.out.println("~ Display path with shortest time to reach the enemy fortress ");
-                    System.out.println("~ A general will lead the troupe");
-                    System.out.println("~ Map will have different types of road, influencing the speed of troupe\n");
+
+                case "2": //Advanced
+                    System.out.print("<<<< [Advanced version] Enemy Fortress Attack Simulation >>>>\n");
+                    System.out.print("~ Display the best path with shortest time to reach enemy's camp (Djikstra's algorithm)\n");
+                    System.out.print("~ Choose one from 3 generals to lead the troupe\n");
+                    System.out.print("~ Each general will have different speeds based on the road condition of the map\n\n");
                     attackAdvanced();
-                    System.out.println("\nEnter to go back to \"Attack Simulation\" page");
+                    //System.out.print("\n--------------------------------------------------------\n");
+                    System.out.print("\nEnter to go back to \"Attack Simulation\" page");
                     sc.nextLine();
+                    System.out.print("\n--------------------------------------------------------\n\n");
                     break;
 
                 //Exit interface
@@ -66,10 +68,10 @@ public class AttackSimulation {
         }
     }
 
-    public void attackBasic() {
+    public void attackNormal() {
         int V = 10; // number of nodes
 
-        AttackBasic graph = new AttackBasic(V);
+        AttackNormal graph = new AttackNormal(V);
         graph.addEdge(1, 2);
         graph.addEdge(1, 3);
         graph.addEdge(1, 6);
@@ -104,20 +106,19 @@ public class AttackSimulation {
         graph.addEdge(10, 8);
         graph.addEdge(10, 9);
 
+        System.out.println("Map: \n(The starting node is Node 1)");
+        //create matrix to display the map
         int[][] matrix = new int[V][V];
-
-        // Fill the matrix based on the edges
-        for (int i = 1; i <= 10; i++) {
-            for (int j = 1; j <= 10; j++) {
-                if (graph.hasEdge(i, j)) {
-                    matrix[i - 1][j - 1] = 1; // There is an edge between vertices i and j
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                if (graph.hasEdge(i + 1, j + 1)) {
+                    matrix[i][j] = 1; // There is an edge between vertices (i+1) and (j+1)
                 } else {
-                    matrix[i - 1][j - 1] = 0; // There is no edge between vertices i and j
+                    matrix[i][j] = 0; // There is no edge between vertices (i+1) and (j+1)
                 }
             }
         }
-        System.out.println("Map: (The starting node is Node 1)");
-        // Print the matrix with indices
+
         System.out.print("  ");
         for (int i = 1; i <= V; i++) {
             System.out.print(i + " ");
@@ -132,32 +133,34 @@ public class AttackSimulation {
             System.out.println();
         }
 
+        //user input for enemy node aka dest node
         Scanner sc = new Scanner(System.in);
-
-        int dest = 0;
-
+        int src = 1; //starting node 1
+        int dest = 0; //initialize enemy node
         while (true) {
             System.out.print("\nEnter the enemy node [-1 to exit]: ");
             try {
                 dest = sc.nextInt();
                 if ((dest < 2 || dest > 10) && dest != -1) {
-                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]\n");
+                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]");
                 }
                 break;
             } catch (InputMismatchException ex) {
-                System.out.println("Invalid input. Input must be an integer.\n");
+                System.out.println("Invalid input. Input must be an integer.");
                 sc.next();
             } catch (IllegalArgumentException ex) {
                 System.out.println(ex.getMessage());
             }
         }
         sc.nextLine(); // Avoid Scanner skipping line problem
+        if (dest == -1) {
+            attackSelection();
+            return;
+        }
 
-        int src = 1;
-
-        List<List<Integer>> paths = graph.findPaths(src, dest);
-
+        //find all possible paths
         System.out.print("\nAll the possible paths from Node 1 to " + dest + ": \n");
+        List<List<Integer>> paths = graph.findPaths(src, dest);
         for (List<Integer> path : paths) {
             for (int i = 0; i < path.size(); i++) {
                 System.out.print(path.get(i));
@@ -168,10 +171,10 @@ public class AttackSimulation {
             System.out.println();
         }
 
+        //find the shortest path/s
+        System.out.print("\nShortest path/s: \n");
         List<Integer> pathLengths = graph.getPathLengths(paths);
         int minPathLength = Collections.min(pathLengths);
-
-        System.out.print("\nShortest path/s: \n");
         for (int i = 0; i < paths.size(); i++) {
             if (pathLengths.get(i) == minPathLength) {
                 List<Integer> path = paths.get(i);
@@ -184,40 +187,30 @@ public class AttackSimulation {
                 System.out.println();
             }
         }
-        System.out.println("\n--------------------------------------------------------");
     }
 
     public void attackAdvanced() {
 
-        Scanner sc = new Scanner (System.in);
-
-        System.out.println("--------------------------------------------------------\n");
-
         Map<Integer, List<Combo>> adjacencyList = new HashMap<>();
-        adjacencyList.put(1, Arrays.asList(new Combo<>(2, 10, "forest"), new Combo<>(3, 18, "flat"), new Combo<>(6, 20, "flat"), new Combo<>(10, 16, "flat")));
-        adjacencyList.put(2, Arrays.asList(new Combo<>(1, 10, "forest"), new Combo<>(4, 10, "swamp")));
-        adjacencyList.put(3, Arrays.asList(new Combo<>(1, 18, "flat"), new Combo<>(4, 12, "swamp"), new Combo<>(7, 28, "plank")));
-        adjacencyList.put(4, Arrays.asList(new Combo<>(2, 10, "swamp"), new Combo<>(3, 12, "swamp"), new Combo<>(5, 12, "swamp")));
-        adjacencyList.put(5, Arrays.asList(new Combo<>(4, 12, "swamp"), new Combo<>(6, 17, "flat"), new Combo<>(7, 10, "forest")));
-        adjacencyList.put(6, Arrays.asList(new Combo<>(1, 20, "flat"), new Combo<>(5, 17, "flat"), new Combo<>(7, 23, "forest"), new Combo<>(8, 35, "plank")));
-        adjacencyList.put(7, Arrays.asList(new Combo<>(5, 10, "forest"), new Combo<>(6, 23, "forest"), new Combo<>(8, 19, "flat"), new Combo<>(9, 17, "flat")));
-        adjacencyList.put(8, Arrays.asList(new Combo<>(6, 35, "plank"), new Combo<>(7, 19, "flat"), new Combo<>(9, 7, "swamp"), new Combo<>(10, 12, "forest")));
-        adjacencyList.put(9, Arrays.asList(new Combo<>(7, 17, "flat"), new Combo<>(8, 7, "swamp"), new Combo<>(10, 18, "flat")));
-        adjacencyList.put(10, Arrays.asList(new Combo<>(1, 16, "flat"), new Combo<>(8, 12, "forest"), new Combo<>(9, 18, "flat")));
+        adjacencyList.put(1, Arrays.asList(new Combo(2, 10, "forest"), new Combo(3, 18, "flat"), new Combo(6, 20, "flat"), new Combo(10, 16, "flat")));
+        adjacencyList.put(2, Arrays.asList(new Combo(1, 10, "forest"), new Combo(4, 10, "swamp")));
+        adjacencyList.put(3, Arrays.asList(new Combo(1, 18, "flat"), new Combo(4, 12, "swamp"), new Combo(7, 28, "plank")));
+        adjacencyList.put(4, Arrays.asList(new Combo(2, 10, "swamp"), new Combo(3, 12, "swamp"), new Combo(5, 12, "swamp")));
+        adjacencyList.put(5, Arrays.asList(new Combo(4, 12, "swamp"), new Combo(6, 17, "flat"), new Combo(7, 10, "forest")));
+        adjacencyList.put(6, Arrays.asList(new Combo(1, 20, "flat"), new Combo(5, 17, "flat"), new Combo(7, 23, "forest"), new Combo(8, 35, "plank")));
+        adjacencyList.put(7, Arrays.asList(new Combo(5, 10, "forest"), new Combo(6, 23, "forest"), new Combo(8, 19, "flat"), new Combo(9, 17, "flat")));
+        adjacencyList.put(8, Arrays.asList(new Combo(6, 35, "plank"), new Combo(7, 19, "flat"), new Combo(9, 7, "swamp"), new Combo(10, 12, "forest")));
+        adjacencyList.put(9, Arrays.asList(new Combo(7, 17, "flat"), new Combo(8, 7, "swamp"), new Combo(10, 18, "flat")));
+        adjacencyList.put(10, Arrays.asList(new Combo(1, 16, "flat"), new Combo(8, 12, "forest"), new Combo(9, 18, "flat")));
 
-        // Create the ori graph
-        int[][] graphforPrint = createGraph(adjacencyList);
-
-        // Print the graph
+        //display map
+        int[][] graphforPrint = createGraphForPrint(adjacencyList);
         System.out.print("Map: \n(The starting node is Node 1)\n");
-
-// Print column headers
         System.out.print("   ");
         for (int j = 1; j < graphforPrint[0].length; j++) {
             System.out.print(j + " ");
         }
         System.out.println();
-
         for (int i = 1; i < graphforPrint.length; i++) {
             // Print row header
             System.out.print(i + "  ");
@@ -228,18 +221,19 @@ public class AttackSimulation {
             System.out.println();
         }
 
+        //user input enemy node
+        Scanner sc = new Scanner (System.in);
         int enemyNode = 0;
         while (true) {
             System.out.print("\nEnter Enemy Fortress Node [-1 to exit]: ");
-
             try {
                 enemyNode = sc.nextInt();
                 if ((enemyNode < 1 || enemyNode > 10) && enemyNode != -1) {
-                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]\n");
+                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]");
                 }
                 break;
             } catch (InputMismatchException ex) {
-                System.out.println("Invalid input. Input must be an integer.\n");
+                System.out.println("Invalid input. Input must be an integer.");
                 // Clear the invalid input
                 sc.next();
             } catch (IllegalArgumentException ex) {
@@ -252,10 +246,11 @@ public class AttackSimulation {
             return;
         }
 
+        //user input general type
         int generalType = 0;
-
+        System.out.println();
         while (true) {
-            System.out.print("\nGeneral Type\n" +
+            System.out.print("Generals\n" +
                     "(1)Cavalry (Speed: 2km/h)\n" +
                     "\t Flat road - x3\n" +
                     "\t Forest - x0.8\n" +
@@ -294,16 +289,14 @@ public class AttackSimulation {
             return;
         }
         int startNode = 1; // Starting node index
-        System.out.println("\n--------------------------------------------------------");
-        AttackAdvanced.dijkstra(createGraphExtra(adjacencyList, generalType), startNode, enemyNode, generalType);
+        AttackAdvanced.dijkstra(createGraph(adjacencyList, generalType), startNode, enemyNode, generalType);
     }
 }
 
-class AttackBasic {
-
+class AttackNormal { //BFS algorithm
     private final LinkedList<Integer>[] adjList;
 
-    public AttackBasic(int v) {
+    public AttackNormal(int v) {
         adjList = new LinkedList[v + 1];
         for (int i = 1; i <= v; i++) {
             adjList[i] = new LinkedList<>();
@@ -357,27 +350,22 @@ class AttackBasic {
     }
 }
 
-class AttackAdvanced {
-
+class AttackAdvanced { //Djikstra's algorithm
     private static final double INF = Double.POSITIVE_INFINITY;
 
     public static void dijkstra(double[][] graph, int startNode, int enemyNode, int generalType) {
         int n = graph.length;
-        double[] time = new double[n]; // to store the shortest time
-        boolean[] visited = new boolean[n]; // to track visited nodes
+        double[] time = new double[n];
+        boolean[] visited = new boolean[n];
         int[] prev = new int[n];
 
-        // Initialize the time array with infinity and mark the start node as 0
         Arrays.fill(time, INF);
         Arrays.fill(prev, -1);
         time[startNode] = 0;
 
-        // Run Dijkstra's algorithm
         for (int count = 0; count < n - 1; count++) {
-            int u = (int) getMinTime(time, visited); // Find the node with the minimum time
-            visited[u] = true; // Mark the node as visited
-
-            // Update the time of the neighboring nodes
+            int u = (int) getMinTime(time, visited);
+            visited[u] = true;
             for (int v = 0; v < n; v++) {
                 if (!visited[v] && graph[u][v] != 0 && time[u] != INF
                         && time[u] + graph[u][v] < time[v]) {
@@ -386,11 +374,7 @@ class AttackAdvanced {
                 }
             }
         }
-        // Calculate the total time of the shortest path
         int current;
-        // Rest of the code...
-
-        // Reconstruct the shortest path
         List<Integer> path = new ArrayList<>();
         current = startNode;
         while (current != -1) {
@@ -407,10 +391,10 @@ class AttackAdvanced {
                 break;
             case 3 : generalTypeName = "Infantry";
         }
-        System.out.println("\nGeneral Type: " + generalTypeName + "\n");
 
-        printShortestPaths(prev, startNode, enemyNode);
-        // Print total time taken
+        //print general type, shortest path, total time taken
+        System.out.println("\nGeneral Type: " + generalTypeName);
+        printBestPaths(prev, startNode, enemyNode);
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         System.out.print("\nTotal time taken: " + decimalFormat.format(time[enemyNode]) + " hours \n");
     }
@@ -429,7 +413,7 @@ class AttackAdvanced {
         return minIndex;
     }
 
-    private static void printShortestPaths(int[] prev, int startNode, int enemyNode) {
+    private static void printBestPaths(int[] prev, int startNode, int enemyNode) {
         List<Integer> path = new ArrayList<>();
         int current = enemyNode;
         while (current != -1) {
@@ -439,32 +423,26 @@ class AttackAdvanced {
         Collections.reverse(path);
 
         if (path.get(0) == startNode) {
-            System.out.print("Best path from " + startNode + " to " + enemyNode + ":\n");
+            System.out.print("Best path from " + startNode + " to " + enemyNode + ": ");
             for (int i = 0; i < path.size(); i++) {
                 System.out.print(path.get(i));
                 if (i != path.size() - 1) {
                     System.out.print(" -> ");
                 }
             }
-            System.out.println();
         } else {
             System.out.println("No path found from " + startNode + " to " + enemyNode);
         }
     }
 
-    public static int[][] createGraph(Map<Integer, List<Combo>> adjacencyList) {
-        // Find the maximum node number
+    public static int[][] createGraphForPrint(Map<Integer, List<Combo>> adjacencyList) {
         int maxNode = adjacencyList.keySet().stream().max(Integer::compareTo).orElse(0);
-
-        // Create a 2D array for the integer graph representation
         int[][] graphForPrint = new int[maxNode + 1][maxNode + 1];
 
-        // Initialize the graph with 0 distance
         for (int i = 0; i <= maxNode; i++) {
             Arrays.fill(graphForPrint[i], 0);
         }
 
-        // Populate the graph with distances from the adjacency list
         for (int i = 1; i <= maxNode; i++) {
             List<Combo> combos = adjacencyList.getOrDefault(i, new ArrayList<>());
 
@@ -478,19 +456,14 @@ class AttackAdvanced {
         return graphForPrint;
     }
 
-    public static double[][] createGraphExtra(Map<Integer, List<Combo>> adjacencyList, int generalType) {
-        // Find the maximum node number
+    public static double[][] createGraph(Map<Integer, List<Combo>> adjacencyList, int generalType) {
         int maxNode = adjacencyList.keySet().stream().max(Integer::compareTo).orElse(0);
-
-        // Create a 2D array for the double graph representation
         double[][] graph = new double[maxNode + 1][maxNode + 1];
 
-        // Initialize the graph with 0 distance
         for (int i = 0; i <= maxNode; i++) {
             Arrays.fill(graph[i], 0);
         }
 
-        // Populate the graph with distances from the adjacency list
         for (int i = 1; i <= maxNode; i++) {
             List<Combo> combos = adjacencyList.getOrDefault(i, new ArrayList<>());
 
@@ -516,7 +489,7 @@ class AttackAdvanced {
                     } else if (Objects.equals(combo.getType(), "plank")) {
                         time = (double) combo.getDistance() / (1 * 0.5);
                     }
-                } else if (generalType == 3) {
+                } else if (generalType == 3) { //infantry
                     if (Objects.equals(combo.getType(), "flat")) {
                         time = (double) combo.getDistance() / (1 * 2);
                     } else if (Objects.equals(combo.getType(), "forest")) {
@@ -531,13 +504,11 @@ class AttackAdvanced {
                 graph[i][combo.getNode()] = time; // time from i to node
             }
         }
-
         return graph;
     }
-
 }
 
-class Combo<T> {
+class Combo {
 
     private final int node;
     private final int distance;
