@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package assignment_ds;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +15,7 @@ public class WuKingdomHierarchy {
 
     WuKingdomHierarchy a;
     TreeNode root;
-    String FILENAME = "Characters.txt";
+    String FILENAME = "C:\\Users\\User\\IdeaProjects\\Assignment_DS\\Characters.txt";
 
     //Main panel must implement this method to access all the methods in this class
     public void wkhSelection() {
@@ -38,7 +30,6 @@ public class WuKingdomHierarchy {
             System.out.println("1 Display Tree");
             System.out.println("2 Display Member's Ability Table");
             System.out.println("3 Add General");
-            System.out.println("4 Remove General");
             System.out.println("-1 Exit Page");
             System.out.print("\nPlease Select: ");
             String opt = option.nextLine();
@@ -63,13 +54,6 @@ public class WuKingdomHierarchy {
                 //Add General
                 case "3":
                     a.addGeneral(root);
-                    System.out.println("Enter to go back to \"Wu Kingdom Hierarchy\" page");
-                    option.nextLine();
-                    break;
-
-                //Remove General
-                case "4":
-                    a.removeGeneral(root);
                     System.out.println("Enter to go back to \"Wu Kingdom Hierarchy\" page");
                     option.nextLine();
                     break;
@@ -187,150 +171,20 @@ public class WuKingdomHierarchy {
         return sunQuan;
     }
 
-    //This method will be used in "removeGeneral" method
-    public void removeGeneral_InTree(ArrayList<TreeNode> list, String name) {
-        for (int i = 0; i < list.size(); i++) {
-            TreeNode node = list.get(i);
-            if (name.equalsIgnoreCase(node.getName())) {
-                list.remove(node);
-                break;
-            }
-        }
-    }
-
-    //Remove General
-    public void removeGeneral(TreeNode root) {
-
-        Scanner sc = new Scanner(System.in);
-        int strength, intelligence;
-        String[] rem;
-        String remGeneral="";
-
-        while (true) {
-
-            try {
-                //Enter the general to be removed
-                System.out.println("Please enter the general to be removed in this format");
-                System.out.print("[name,strength,intelligence] without bracket or -1 to exit: ");
-                remGeneral = sc.nextLine();
-
-                //to exit interface
-                if (remGeneral.equalsIgnoreCase("-1")) {
-                    return;
-                }
-
-                rem = remGeneral.split(",");
-
-                if(rem.length != 3){
-                    throw new IllegalArgumentException("Wrong input, input must be 3 elements\n");
-                }
-
-                strength = Integer.parseInt(rem[1]);
-                intelligence = Integer.parseInt(rem[2]);
-
-                break;
-
-            } catch (ArrayIndexOutOfBoundsException ex) {
-                System.out.println("Wrong input format\n");
-            } catch (NumberFormatException ex) {
-                System.out.println("Wrong input format\n");
-            }  catch (IllegalArgumentException ex) {
-                System.out.println(ex.getMessage());
-                if(remGeneral.isEmpty()){
-                    sc.nextLine();
-                }
-            }
-
-        }
-
-        //to find the which division is that general in
-        if (strength >= intelligence) {
-            ArrayList<TreeNode> childrenList = root.getChild(1).getChildrenList();
-
-            //remove that general in tree
-            removeGeneral_InTree(childrenList, rem[0]);
-
-            //save the arraylist
-            root.getChild(1).setChildrenList(childrenList);
-
-        } else { //strength < intelligence
-            ArrayList<TreeNode> childrenList = root.getChild(0).getChildrenList();
-
-            //remove the general in tree
-            removeGeneral_InTree(childrenList, rem[0]);
-
-            //save the array list
-            root.getChild(0).setChildrenList(childrenList);
-        }
-
-        //Remove general in Characters.txt file
-        try {
-            File inputFile = new File(FILENAME);
-            File tempFile = new File("temp.txt");
-
-            BufferedReader read = new BufferedReader(new FileReader(inputFile));
-            BufferedWriter write = new BufferedWriter(new FileWriter(tempFile));
-
-            String currentLine;
-            boolean isRemovingGeneral = false;
-
-            while ((currentLine = read.readLine()) != null) {
-
-                // If the line contains the name of the general to be removed, start removing the block of text
-                if (currentLine.equals("Name: " + rem[0])) {
-                    isRemovingGeneral = true;
-                    continue;
-                }
-
-                // If we are currently removing the block of text, skip over this line
-                if (isRemovingGeneral) {
-                    // If the line contains the end of the block of text, stop removing the block of text
-                    if (currentLine.contains("Hit Point")) {
-                        isRemovingGeneral = false;
-                    }
-                    continue;
-                }
-
-                write.write(currentLine + System.getProperty("line.separator"));
-
-            }
-
-            write.close();
-            read.close();
-
-            //Delete the original file
-            if (!inputFile.delete()) {
-                System.out.println("Failed to delete the original file.");
-                return;
-            }
-
-            //Rename the temp file to the original file
-            if (!tempFile.renameTo(inputFile)) {
-                System.out.println("Failed to rename the temp file.");
-                return;
-            }
-
-            System.out.println("General removed successfully.");
-        } catch (IOException e) {
-            System.out.println("An error occurred while removing the general bio.");
-            e.printStackTrace();
-        }
-
-    }
 
     //Add general
     public void addGeneral(TreeNode root) {
 
         Scanner sc = new Scanner(System.in);
         String[] temp;
-        String newGeneral ="";
+        String newGeneral="";
         TreeNode newGeneralNode;
 
         while (true) {
             try {
                 //Enter the new general you want to add
                 System.out.println("Please enter the new general's details in this format: ");
-                System.out.println("[name,position,army type,strength,leadership,intelligence,politic,hit point] without bracket or -1 to exit");
+                System.out.println("[name,position,army type,strength,leadership,intelligence,politic,hit point] without bracket or -1 to exit: ");
                 newGeneral = sc.nextLine();
 
                 //to exit interface
@@ -340,7 +194,7 @@ public class WuKingdomHierarchy {
 
                 temp = newGeneral.split(",");
 
-                if(temp.length != 8){
+                if (temp.length != 8) {
                     throw new IllegalArgumentException("Wrong input, input must be 8 elements\n");
                 }
 
@@ -353,7 +207,7 @@ public class WuKingdomHierarchy {
                 System.out.println("Wrong input format\n");
             } catch (IllegalArgumentException ex) {
                 System.out.println(ex.getMessage());
-                if(newGeneral.isEmpty()){
+                if(newGeneral.isEmpty()) {
                     sc.nextLine();
                 }
             }
@@ -363,11 +217,11 @@ public class WuKingdomHierarchy {
         int strength = Integer.parseInt(temp[3]);
         int intelligence = Integer.parseInt(temp[5]);
 
-        //if strength>=intelligence Enter millitary
+        //if strength>=intelligence Enter military
         if (strength >= intelligence) {
             root.getChild(1).addChild(newGeneralNode);
-        } //if intelligence >strength Enter Management
-        else if (strength < intelligence) {
+        } //if strength < intelligence Enter Management
+        else{
             root.getChild(0).addChild(newGeneralNode);
         }
 
@@ -420,7 +274,7 @@ public class WuKingdomHierarchy {
         //get the specific character
         TreeNode character = i;
 
-        System.out.println("------------------------------------------------");
+        System.out.println("--------------------------------------------------------\n");
         System.out.println("Name: " + character.getName());
         System.out.println("Position: " + character.getPosition());
         System.out.println("Army Type: " + character.getArmyType());
@@ -430,7 +284,7 @@ public class WuKingdomHierarchy {
         System.out.println("Intelligence: " + character.getIntelligence());
         System.out.println("Politic: " + character.getPolitic());
         System.out.println("Hit Point: " + character.getHitPoint());
-        System.out.println("------------------------------------------------\n");
+        System.out.println("\n--------------------------------------------------------\n");
 
     }
 
@@ -461,7 +315,7 @@ public class WuKingdomHierarchy {
             } else if (name.equalsIgnoreCase("Zhou Yu")) {
                 displayBio(root.getChild(1));
                 isFound = true;
-            } //if you choose general 
+            } //if you choose general
             else {
                 for (int i = 0; i < root.getChildSize(); i++) {
                     TreeNode temp = root.getChild(i);
@@ -470,7 +324,6 @@ public class WuKingdomHierarchy {
                         if (tempL2.getName().equalsIgnoreCase(name)) {
                             displayBio(tempL2);
                             isFound = true;
-                            return;
                         }
                     }
 
