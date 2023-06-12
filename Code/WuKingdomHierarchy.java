@@ -67,7 +67,7 @@ public class WuKingdomHierarchy {
                     option.nextLine();
                     break;
 
-                //Remove General 
+                //Remove General
                 case "4":
                     a.removeGeneral(root);
                     System.out.println("Enter to go back to \"Wu Kingdom Hierarchy\" page");
@@ -204,21 +204,26 @@ public class WuKingdomHierarchy {
         Scanner sc = new Scanner(System.in);
         int strength, intelligence;
         String[] rem;
+        String remGeneral="";
 
         while (true) {
 
             try {
                 //Enter the general to be removed
                 System.out.println("Please enter the general to be removed in this format");
-                System.out.print("[name,strength,intelligence] or 0 to exit: ");
-                String remGeneral = sc.nextLine();
+                System.out.print("[name,strength,intelligence] without bracket or -1 to exit: ");
+                remGeneral = sc.nextLine();
 
                 //to exit interface
-                if (remGeneral.equalsIgnoreCase("0")) {
+                if (remGeneral.equalsIgnoreCase("-1")) {
                     return;
                 }
 
                 rem = remGeneral.split(",");
+
+                if(rem.length != 3){
+                    throw new IllegalArgumentException("Wrong input, input must be 3 elements\n");
+                }
 
                 strength = Integer.parseInt(rem[1]);
                 intelligence = Integer.parseInt(rem[2]);
@@ -226,14 +231,19 @@ public class WuKingdomHierarchy {
                 break;
 
             } catch (ArrayIndexOutOfBoundsException ex) {
-                System.out.println("Wrong input format");
+                System.out.println("Wrong input format\n");
             } catch (NumberFormatException ex) {
-                System.out.println("Wrong input format");
+                System.out.println("Wrong input format\n");
+            }  catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+                if(remGeneral.isEmpty()){
+                    sc.nextLine();
+                }
             }
 
         }
 
-        //to find the which divisoin is that general in
+        //to find the which division is that general in
         if (strength >= intelligence) {
             ArrayList<TreeNode> childrenList = root.getChild(1).getChildrenList();
 
@@ -242,7 +252,8 @@ public class WuKingdomHierarchy {
 
             //save the arraylist
             root.getChild(1).setChildrenList(childrenList);
-        } else if (strength < intelligence) {
+
+        } else { //strength < intelligence
             ArrayList<TreeNode> childrenList = root.getChild(0).getChildrenList();
 
             //remove the general in tree
@@ -312,30 +323,39 @@ public class WuKingdomHierarchy {
 
         Scanner sc = new Scanner(System.in);
         String[] temp;
-        String newGeneral;
+        String newGeneral ="";
         TreeNode newGeneralNode;
 
         while (true) {
             try {
                 //Enter the new general you want to add
                 System.out.println("Please enter the new general's details in this format: ");
-                System.out.println("[name,position,army type,strength,leadership,intelligence,politic,hit point] or 0 to exit");
+                System.out.println("[name,position,army type,strength,leadership,intelligence,politic,hit point] without bracket or -1 to exit");
                 newGeneral = sc.nextLine();
 
                 //to exit interface
-                if (newGeneral.equalsIgnoreCase("0")) {
+                if (newGeneral.equalsIgnoreCase("-1")) {
                     return;
                 }
 
                 temp = newGeneral.split(",");
 
+                if(temp.length != 8){
+                    throw new IllegalArgumentException("Wrong input, input must be 8 elements\n");
+                }
+
                 newGeneralNode = new TreeNode(temp);
                 break;
 
             } catch (IndexOutOfBoundsException ex) {
-                System.out.println("Wrong Input Format");
+                System.out.println("Wrong input format\n");
             } catch (NumberFormatException ex) {
-                System.out.println("Wrong Input Format");
+                System.out.println("Wrong input format\n");
+            } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+                if(newGeneral.isEmpty()){
+                    sc.nextLine();
+                }
             }
         }
 
@@ -407,7 +427,7 @@ public class WuKingdomHierarchy {
         System.out.println("\nAbility Table:");
         System.out.println("Strength: " + character.getStrength());
         System.out.println("Leadership: " + character.getLeadership());
-        System.out.println("Intelligence: " + character.getLeadership());
+        System.out.println("Intelligence: " + character.getIntelligence());
         System.out.println("Politic: " + character.getPolitic());
         System.out.println("Hit Point: " + character.getHitPoint());
         System.out.println("------------------------------------------------\n");
@@ -424,10 +444,10 @@ public class WuKingdomHierarchy {
             //always reset isFound = false
             isFound = false;
 
-            System.out.print("Enter Member Name [0 to exit]: ");
+            System.out.print("Enter Member Name [-1 to exit]: ");
             String name = sc.nextLine();
 
-            if(name.equals("0"))
+            if(name.equals("-1"))
                 break;
 
             //if you choose the emperor
@@ -458,7 +478,7 @@ public class WuKingdomHierarchy {
             }
 
             if (!isFound)
-                System.out.println("Unrecognized person. Please enter again.");
+                System.out.println("Unrecognized person. Please enter again.\n");
             else
                 break;
 
