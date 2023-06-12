@@ -38,7 +38,6 @@ public class AttackSimulation {
                     System.out.print("~ Display all possible paths to reach enemy's camp (BFS algorithm)\n");
                     System.out.print("~ Display the shortest path/s to reach enemy's camp\n\n");
                     attackNormal();
-                    //System.out.print("\n--------------------------------------------------------\n");
                     System.out.print("\nEnter to go back to \"Attack Simulation\" page");
                     sc.nextLine();
                     System.out.print("\n--------------------------------------------------------\n\n");
@@ -50,7 +49,6 @@ public class AttackSimulation {
                     System.out.print("~ Choose one from 3 generals to lead the troupe\n");
                     System.out.print("~ Each general will have different speeds based on the road condition of the map\n\n");
                     attackAdvanced();
-                    //System.out.print("\n--------------------------------------------------------\n");
                     System.out.print("\nEnter to go back to \"Attack Simulation\" page");
                     sc.nextLine();
                     System.out.print("\n--------------------------------------------------------\n\n");
