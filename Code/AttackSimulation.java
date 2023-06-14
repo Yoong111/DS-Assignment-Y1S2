@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.*;
-import static assignment_ds.AttackSimulation.attackSelection;
 
 public class AttackSimulation {
     static AttackNormal attackNormal = new AttackNormal();
@@ -291,7 +290,7 @@ class AttackNormal {
         //-1 to exit
         if (dest == -1) {
             System.out.println();
-            attackSelection();
+            AttackSimulation.attackSelection();
         }
 
         // find & display all possible paths
@@ -588,7 +587,7 @@ class AttackAdvanced {
                 enemyNode = sc.nextInt();
                 if (enemyNode == -1) {
                     System.out.println();
-                    attackSelection();
+                    AttackSimulation.attackSelection();
                 }
                 if ((enemyNode < 1 || enemyNode > 10) && enemyNode != -1) {
                     throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]");
@@ -645,7 +644,7 @@ class AttackAdvanced {
 
                 if (generalName.equals("-1")) { // exit case
                     System.out.println();
-                    attackSelection();
+                    AttackSimulation.attackSelection();
                 }
 
                 if (!isString(generalName)) { // if input is not a string
