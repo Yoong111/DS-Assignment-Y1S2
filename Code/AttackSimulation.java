@@ -1,5 +1,8 @@
 package assignment_ds;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.*;
 import static assignment_ds.AttackSimulation.attackSelection;
@@ -124,8 +127,6 @@ class AttackNormal {
             initialPath.add(start);
             queue.offer(initialPath);
 
-            Node endNode = nodes.get(end);
-
             while (!queue.isEmpty()) {
                 List<Integer> currentPath = queue.poll();
                 int currentNode = currentPath.get(currentPath.size() - 1);
@@ -188,7 +189,7 @@ class AttackNormal {
             return shortestPaths;
         }
     }
-
+    //called when user choose normal
     public void normalSelection() {
         int V = 10; // number of nodes
         Graph graph = new Graph();
@@ -270,7 +271,7 @@ class AttackNormal {
         // user input for enemy node aka dest node
         Scanner sc = new Scanner(System.in);
         int src = 1; // starting node 1
-        int dest = 0; // initialize enemy node
+        int dest; // initialize enemy node
         while (true) {
             System.out.print("\nEnter the enemy node [-1 to exit]: ");
             try {
@@ -286,10 +287,11 @@ class AttackNormal {
                 System.out.println(ex.getMessage());
             }
         }
-        sc.nextLine(); // Avoid Scanner skipping line problem
+
         //-1 to exit
         if (dest == -1) {
-            return;
+            System.out.println();
+            attackSelection();
         }
 
         // find & display all possible paths
@@ -304,7 +306,7 @@ class AttackNormal {
                     pathString.append(" -> ");
                 }
             }
-            System.out.println(pathString.toString());
+            System.out.println(pathString);
         }
 
         // find & display all shortest paths
@@ -319,10 +321,11 @@ class AttackNormal {
                     pathString.append(" -> ");
                 }
             }
-            System.out.println(pathString.toString());
+            System.out.println(pathString);
         }
     }
 }
+
 
 
 class AttackAdvanced {
@@ -351,6 +354,41 @@ class AttackAdvanced {
             return type;
         }
     }
+    private static boolean isString(String input) {
+        return input.matches("[a-zA-Z ]+"); //allow spaces
+    }
+    //read from character.txt
+    public static int getGeneralType(String characterName) {
+        String filePath = "Characters.txt";
+        List<String> lines;
+        try {
+            lines = Files.readAllLines(Paths.get(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        boolean isNameMatched = false;
+        for (String line : lines) {
+            if (line.startsWith("Name:")) {
+                String name = line.substring(line.indexOf(":") + 1).trim();
+                if (name.equalsIgnoreCase(characterName)) {
+                    isNameMatched = true;
+                }
+            } else if (isNameMatched && line.startsWith("Army Type:")) {
+                String armyType = line.substring(line.indexOf(":") + 1).trim();
+                if (armyType.equalsIgnoreCase("Cavalry")) {
+                    return 1;
+                } else if (armyType.equalsIgnoreCase("Archer")) {
+                    return 2;
+                } else if (armyType.equalsIgnoreCase("Infantry")) {
+                    return 3;
+                }
+            }
+        }
+        return 0;
+    }
+
     //djikstra's algo for weighted graph
     public static void dijkstra(double[][] graph, int startNode, int enemyNode, int generalType) {
         int n = graph.length;
@@ -396,7 +434,7 @@ class AttackAdvanced {
 
         //print general type, shortest path, total time taken
         System.out.println("\nGeneral Type: " + generalTypeName);
-        printBestPaths(prev, startNode, enemyNode);
+        printPath(prev, startNode, enemyNode);
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         System.out.print("\nTotal time taken: " + decimalFormat.format(time[enemyNode]) + " hours \n");
     }
@@ -411,11 +449,10 @@ class AttackAdvanced {
                 minIndex = i;
             }
         }
-
         return minIndex;
     }
 
-    private static void printBestPaths(int[] prev, int startNode, int enemyNode) {
+    private static void printPath(int[] prev, int startNode, int enemyNode) {
         List<Integer> path = new ArrayList<>();
         int current = enemyNode;
         while (current != -1) {
@@ -480,11 +517,11 @@ class AttackAdvanced {
                     } else if (Objects.equals(combo.getType(), "swamp")) {
                         time = (double) combo.getDistance() / (2 * 0.3);
                     } else if (Objects.equals(combo.getType(), "plank")) {
-                        time = (double) combo.getDistance() / (2 * 0.5);
+                        time = (double) combo.getDistance();
                     }
                 } else if (generalType == 2) { // archer
                     if (Objects.equals(combo.getType(), "flat")) {
-                        time = (double) combo.getDistance() / (1 * 2);
+                        time = (double) combo.getDistance() / (2);
                     } else if (Objects.equals(combo.getType(), "forest")) {
                         time = (double) combo.getDistance();
                     } else if (Objects.equals(combo.getType(), "swamp")) {
@@ -494,7 +531,7 @@ class AttackAdvanced {
                     }
                 } else if (generalType == 3) { // infantry
                     if (Objects.equals(combo.getType(), "flat")) {
-                        time = (double) combo.getDistance() / (1 * 2);
+                        time = (double) combo.getDistance() / (2);
                     } else if (Objects.equals(combo.getType(), "forest")) {
                         time = (double) combo.getDistance() / (1 * 2.5);
                     } else if (Objects.equals(combo.getType(), "swamp")) {
@@ -509,7 +546,7 @@ class AttackAdvanced {
         }
         return graph;
     }
-
+    //called when user select advanced
     public void advancedSelection() {
 
         Map<Integer, List<Combo>> adjacencyList = new HashMap<>();
@@ -544,11 +581,15 @@ class AttackAdvanced {
 
         //user input enemy node
         Scanner sc = new Scanner (System.in);
-        int enemyNode = 0;
+        int enemyNode;
         while (true) {
             System.out.print("\nEnter Enemy Fortress Node [-1 to exit]: ");
             try {
                 enemyNode = sc.nextInt();
+                if (enemyNode == -1) {
+                    System.out.println();
+                    attackSelection();
+                }
                 if ((enemyNode < 1 || enemyNode > 10) && enemyNode != -1) {
                     throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]");
                 }
@@ -562,56 +603,66 @@ class AttackAdvanced {
             }
         }
         sc.nextLine(); // Avoid Scanner skipping line problem
-        //-1 to exit
-        if (enemyNode == -1) {
-            attackSelection();
-            return;
-        }
+
+
+        int generalType; //1 for cavalry, 2 for archer, 3 for infantry
 
         //user input general type
-        int generalType = 0;
         System.out.println();
+        System.out.print("Generals\n" +
+                "Cavalry (Speed: 2km/h)\n" +
+                "~ Characters: Sun Quan, Zhou Yu, Tai Shi Ci, Da Qiao, Lu Meng\n"+
+                "\t Flat road - x3\n" +
+                "\t Forest - x0.8\n" +
+                "\t Swamp - x0.3\n" +
+                "\t Plank road - x0.5\n" +
+                "Archer (Speed: 1km/h)\n" +
+                "~ Characters: Zhang Zhao, Xu Sheng, Zhu Ge Jin, Gan Ning\n"+
+                "\t Flat road - x2\n" +
+                "\t Forest - x1\n" +
+                "\t Swamp - x2.5\n" +
+                "\t Plank road - x0.5\n" +
+                "Infantry (Speed: 1km/h)\n" +
+                "~ Characters: Lu Su, Xiao Qiao, Zhou Tai, Huang Gai\n"+
+                "\t Flat road - x2\n" +
+                "\t Forest - x2.5\n" +
+                "\t Swamp - x1\n" +
+                "\t Plank road - x0.5\n"
+
+        );
+
+        String generalName;
+
         while (true) {
-            System.out.print("Generals\n" +
-                    "(1)Cavalry (Speed: 2km/h)\n" +
-                    "\t Flat road - x3\n" +
-                    "\t Forest - x0.8\n" +
-                    "\t Swamp - x0.3\n" +
-                    "\t Plank road - x0.5\n" +
-                    "(2)Archer (Speed: 1km/h)\n" +
-                    "\t Flat road - x2\n" +
-                    "\t Forest - x1\n" +
-                    "\t Swamp - x2.5\n" +
-                    "\t Plank road - x0.5\n" +
-                    "(3)Infantry (Speed: 1km/h)\n" +
-                    "\t Flat road - x2\n" +
-                    "\t Forest - x2.5\n" +
-                    "\t Swamp - x1\n" +
-                    "\t Plank road - x0.5\n" +
-                    "\nSelect one general[-1 to exit]: "
-            );
+            System.out.print("\nPick a general by their name[-1 to exit]: ");
+            generalName = sc.nextLine().toLowerCase().trim(); // Convert input to lowercase and trim spaces
             try {
-                generalType = sc.nextInt();
-                if ((generalType < 1 || generalType > 3) && generalType != -1) {
-                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[1 ~ 3]\n");
+                generalType = getGeneralType(generalName);
+
+                if (generalName.equals("")) { // Check for empty input
+                    continue; // Skip the rest of the loop and prompt again
+                }
+
+                if (generalName.equals("-1")) { // exit case
+                    System.out.println();
+                    attackSelection();
+                }
+
+                if (!isString(generalName)) { // if input is not a string
+                    throw new IllegalArgumentException("Invalid input. General name must be a string.");
+                }
+
+                if (generalType == 0) { //if input is a string, but not a name in the game
+                    throw new IllegalArgumentException("General not found.");
                 }
                 break;
-
-            } catch (InputMismatchException ex) {
-                System.out.println("Invalid input. Input must be an integer.\n");
-                // Clear the invalid input
-                sc.next();
             } catch (IllegalArgumentException ex) {
                 System.out.println(ex.getMessage());
             }
         }
-        sc.nextLine(); // Avoid Scanner skipping line problem
-        //-1 to exit
-        if (generalType == -1) {
-            attackSelection();
-            return;
-        }
-        int startNode = 1; // Starting node index
+
+        int startNode = 1; // Starting node
+
         AttackAdvanced.dijkstra(createGraph(adjacencyList, generalType), startNode, enemyNode, generalType);
     }
 }

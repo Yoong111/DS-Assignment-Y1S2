@@ -73,7 +73,7 @@ public class FoodHarvesting {
                 + "to harvest all food.\n"
                 + "This system will show the path. ");
         printGraph();
-        int nodeWithoutFood = 0;
+        int nodeWithoutFood;
         while (true) {
 
             System.out.print("\nEnter Node Without Food [-1 to exit]: ");
