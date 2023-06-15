@@ -121,7 +121,7 @@ class AttackNormal {
         //bfs
         public List<List<Integer>> findAllPaths(int start, int end) {
             List<List<Integer>> paths = new ArrayList<>();
-            Queue<List<Integer>> queue = new LinkedList<>();
+            LinkedList<List<Integer>> queue = new LinkedList<>();
             List<Integer> initialPath = new ArrayList<>();
             initialPath.add(start);
             queue.offer(initialPath);
@@ -149,7 +149,7 @@ class AttackNormal {
         //bfs
         public List<List<Integer>> findShortestPaths(int src, int dest) {
             List<List<Integer>> shortestPaths = new ArrayList<>();
-            Queue<List<Integer>> queue = new LinkedList<>();
+            LinkedList<List<Integer>> queue = new LinkedList<>();
             List<Integer> initialPath = new ArrayList<>();
             initialPath.add(src);
             queue.offer(initialPath);
