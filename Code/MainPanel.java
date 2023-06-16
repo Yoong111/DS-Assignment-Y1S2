@@ -20,6 +20,7 @@ public class MainPanel {
         FoodHarvesting food = new FoodHarvesting();
         EngagingCaoCao caoCao = new EngagingCaoCao();
         AttackSimulation attack = new AttackSimulation();
+        RedCliffOnFire redCliff = new RedCliffOnFire();
 
         System.out.println("Welcome to the Wu Kingdom War Strategy System!\n");
         Scanner select = new Scanner(System.in);
@@ -53,6 +54,8 @@ public class MainPanel {
                 food.foodHarvestingSelection();
             } else if (selection.equals("6")) {
                 secret.encryptedTextSelection();
+            } else if (selection.equals("7")) {
+                redCliff.redCliffOnFireSelection();
             } else if (selection.equals("8")) {
                 caoCao.engagingCCSelection();
             } else if (selection.equals("-1")) {

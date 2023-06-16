@@ -7,9 +7,8 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class AttackSimulation {
-    static AttackNormal attackNormal = new AttackNormal();
-    static AttackAdvanced attackAdvanced = new AttackAdvanced();
-    public static void attackSelection() {
+
+    public void attackSelection() {
         while (true) {
             Scanner sc = new Scanner(System.in);
             System.out.print("<<< Enemy Attack Simulation >>>\n");
@@ -40,7 +39,7 @@ public class AttackSimulation {
                     System.out.print("<<<< [Normal] Enemy Fortress Attack Simulation >>>>\n");
                     System.out.print("~ Display all possible paths to reach enemy's camp (BFS algorithm)\n");
                     System.out.print("~ Display the shortest path/s to reach enemy's camp\n\n");
-                    attackNormal.normalSelection();
+                    new AttackNormal();
                     System.out.print("\nEnter to go back to \"Attack Simulation\" page");
                     sc.nextLine();
                     System.out.print("\n--------------------------------------------------------\n\n");
@@ -51,7 +50,7 @@ public class AttackSimulation {
                     System.out.print("~ Display the best path with shortest time to reach enemy's camp (Djikstra's algorithm)\n");
                     System.out.print("~ Choose one from 3 generals to lead the troupe\n");
                     System.out.print("~ Each general will have different speeds based on the road condition of the map\n\n");
-                    attackAdvanced.advancedSelection();
+                    new AttackAdvanced();
                     System.out.print("\nEnter to go back to \"Attack Simulation\" page");
                     sc.nextLine();
                     System.out.print("\n--------------------------------------------------------\n\n");
@@ -71,6 +70,7 @@ public class AttackSimulation {
 }
 
 class AttackNormal {
+    AttackSimulation a = new AttackSimulation();
     private static class Node {
         int value;
         List<Node> neighbors;
@@ -189,7 +189,7 @@ class AttackNormal {
         }
     }
     //called when user choose normal
-    public void normalSelection() {
+    public AttackNormal() {
         int V = 10; // number of nodes
         Graph graph = new Graph();
         // Add nodes to the graph
@@ -290,7 +290,7 @@ class AttackNormal {
         //-1 to exit
         if (dest == -1) {
             System.out.println();
-            AttackSimulation.attackSelection();
+            a.attackSelection();
         }
 
         // find & display all possible paths
@@ -326,10 +326,9 @@ class AttackNormal {
 }
 
 
-
 class AttackAdvanced {
+    AttackSimulation a = new AttackSimulation();
     private static final double INF = Double.POSITIVE_INFINITY;
-
     private static class Combo {
         private final int node;
         private final int distance;
@@ -353,10 +352,155 @@ class AttackAdvanced {
             return type;
         }
     }
+    //called when user select advanced
+    public AttackAdvanced() {
+
+        Map<Integer, List<Combo>> adjacencyList = new HashMap<>();
+        adjacencyList.put(1, Arrays.asList(new Combo(2, 10, "forest"), new Combo(3, 18, "flat"), new Combo(6, 20, "flat"), new Combo(10, 16, "flat")));
+        adjacencyList.put(2, Arrays.asList(new Combo(1, 10, "forest"), new Combo(4, 10, "swamp")));
+        adjacencyList.put(3, Arrays.asList(new Combo(1, 18, "flat"), new Combo(4, 12, "swamp"), new Combo(7, 28, "plank")));
+        adjacencyList.put(4, Arrays.asList(new Combo(2, 10, "swamp"), new Combo(3, 12, "swamp"), new Combo(5, 12, "swamp")));
+        adjacencyList.put(5, Arrays.asList(new Combo(4, 12, "swamp"), new Combo(6, 17, "flat"), new Combo(7, 10, "forest")));
+        adjacencyList.put(6, Arrays.asList(new Combo(1, 20, "flat"), new Combo(5, 17, "flat"), new Combo(7, 23, "forest"), new Combo(8, 35, "plank")));
+        adjacencyList.put(7, Arrays.asList(new Combo(5, 10, "forest"), new Combo(6, 23, "forest"), new Combo(8, 19, "flat"), new Combo(9, 17, "flat")));
+        adjacencyList.put(8, Arrays.asList(new Combo(6, 35, "plank"), new Combo(7, 19, "flat"), new Combo(9, 7, "swamp"), new Combo(10, 12, "forest")));
+        adjacencyList.put(9, Arrays.asList(new Combo(7, 17, "flat"), new Combo(8, 7, "swamp"), new Combo(10, 18, "flat")));
+        adjacencyList.put(10, Arrays.asList(new Combo(1, 16, "flat"), new Combo(8, 12, "forest"), new Combo(9, 18, "flat")));
+
+        //display map
+        int[][] graphforPrint = createGraphForPrint(adjacencyList);
+        System.out.print("Map: \n(The starting node is Node 1)\n");
+        System.out.print("   ");
+        for (int j = 1; j < graphforPrint[0].length; j++) {
+            System.out.print(j + " ");
+        }
+        System.out.println();
+        for (int i = 1; i < graphforPrint.length; i++) {
+            // Print row header
+            System.out.print(i + "  ");
+
+            for (int j = 1; j < graphforPrint[i].length; j++) {
+                System.out.print(graphforPrint[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        //user input enemy node
+        Scanner sc = new Scanner (System.in);
+        int enemyNode;
+        while (true) {
+            System.out.print("\nEnter Enemy Fortress Node [-1 to exit]: ");
+            try {
+                enemyNode = sc.nextInt();
+                if (enemyNode == -1) {
+                    System.out.println();
+                    a.attackSelection();
+                }
+                if ((enemyNode < 1 || enemyNode > 10) && enemyNode != -1) {
+                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]");
+                }
+                break;
+            } catch (InputMismatchException ex) {
+                System.out.println("Invalid input. Input must be an integer.");
+                // Clear the invalid input
+                sc.next();
+            } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        sc.nextLine(); // Avoid Scanner skipping line problem
+
+
+        int generalType; //1 for cavalry, 2 for archer, 3 for infantry
+
+        //user input general type
+        System.out.println();
+        System.out.print("Generals\n" +
+                "Cavalry (Speed: 2km/h)\n" +
+                "~ Characters: Sun Quan, Zhou Yu, Tai Shi Ci, Da Qiao, Lu Meng\n"+
+                "\t Flat road - x3\n" +
+                "\t Forest - x0.8\n" +
+                "\t Swamp - x0.3\n" +
+                "\t Plank road - x0.5\n" +
+                "Archer (Speed: 1km/h)\n" +
+                "~ Characters: Zhang Zhao, Xu Sheng, Zhu Ge Jin, Gan Ning\n"+
+                "\t Flat road - x2\n" +
+                "\t Forest - x1\n" +
+                "\t Swamp - x2.5\n" +
+                "\t Plank road - x0.5\n" +
+                "Infantry (Speed: 1km/h)\n" +
+                "~ Characters: Lu Su, Xiao Qiao, Zhou Tai, Huang Gai\n"+
+                "\t Flat road - x2\n" +
+                "\t Forest - x2.5\n" +
+                "\t Swamp - x1\n" +
+                "\t Plank road - x0.5\n"
+
+        );
+
+        String generalName;
+
+        while (true) {
+            System.out.print("\nPick a general by their name[-1 to exit]: ");
+            generalName = sc.nextLine().toLowerCase().trim(); // Convert input to lowercase and trim spaces
+            try {
+                generalType = getGeneralType(generalName);
+
+                if (generalName.equals("")) { // Check for empty input
+                    continue; // Skip the rest of the loop and prompt again
+                }
+
+                if (generalName.equals("-1")) { // exit case
+                    System.out.println();
+                    a.attackSelection();
+                }
+
+                if (!isString(generalName)) { // if input is not a string
+                    throw new IllegalArgumentException("Invalid input. General name must be a string.");
+                }
+
+                if (generalType == 0) { //if input is a string, but not a name in the game
+                    throw new IllegalArgumentException("General not found.");
+                }
+                break;
+            } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        int startNode = 1; // Starting node
+
+        AttackAdvanced.dijkstra(createGraph(adjacencyList, generalType), startNode, enemyNode, generalType);
+    }
+
+    //createGraphForPrint is to display the map
+    public static int[][] createGraphForPrint(Map<Integer, List<Combo>> adjacencyList) {
+        int maxNode = adjacencyList.keySet().stream().max(Integer::compareTo).orElse(0);
+        int[][] graphForPrint = new int[maxNode + 1][maxNode + 1];
+
+        for (int i = 0; i <= maxNode; i++) {
+            Arrays.fill(graphForPrint[i], 0);
+        }
+
+        for (int i = 1; i <= maxNode; i++) {
+            List<Combo> combos = adjacencyList.getOrDefault(i, new ArrayList<>());
+
+            for (Combo combo : combos) {
+                int distance = combo.getDistance();
+                int node = combo.getNode();
+
+                graphForPrint[i][node] = distance; // distance from i to node
+            }
+        }
+        return graphForPrint;
+    }
+
+    //isString is to check if user input general name is a string
     private static boolean isString(String input) {
         return input.matches("[a-zA-Z ]+"); //allow spaces
     }
-    //read from character.txt
+
+    //get user input general name
+    //read from character.txt to determine the army type of the general named
     public static int getGeneralType(String characterName) {
         String filePath = "Characters.txt";
         List<String> lines;
@@ -389,6 +533,7 @@ class AttackAdvanced {
     }
 
     //djikstra's algo for weighted graph
+    //to find the fastest path for the general
     public static void dijkstra(double[][] graph, int startNode, int enemyNode, int generalType) {
         int n = graph.length;
         double[] time = new double[n];
@@ -473,26 +618,7 @@ class AttackAdvanced {
         }
     }
 
-    public static int[][] createGraphForPrint(Map<Integer, List<Combo>> adjacencyList) {
-        int maxNode = adjacencyList.keySet().stream().max(Integer::compareTo).orElse(0);
-        int[][] graphForPrint = new int[maxNode + 1][maxNode + 1];
 
-        for (int i = 0; i <= maxNode; i++) {
-            Arrays.fill(graphForPrint[i], 0);
-        }
-
-        for (int i = 1; i <= maxNode; i++) {
-            List<Combo> combos = adjacencyList.getOrDefault(i, new ArrayList<>());
-
-            for (Combo combo : combos) {
-                int distance = combo.getDistance();
-                int node = combo.getNode();
-
-                graphForPrint[i][node] = distance; // distance from i to node
-            }
-        }
-        return graphForPrint;
-    }
     //create graph to perform djikstra on
     //counts in factor of general type and road type
     public static double[][] createGraph(Map<Integer, List<Combo>> adjacencyList, int generalType) {
@@ -544,124 +670,5 @@ class AttackAdvanced {
             }
         }
         return graph;
-    }
-    //called when user select advanced
-    public void advancedSelection() {
-
-        Map<Integer, List<Combo>> adjacencyList = new HashMap<>();
-        adjacencyList.put(1, Arrays.asList(new Combo(2, 10, "forest"), new Combo(3, 18, "flat"), new Combo(6, 20, "flat"), new Combo(10, 16, "flat")));
-        adjacencyList.put(2, Arrays.asList(new Combo(1, 10, "forest"), new Combo(4, 10, "swamp")));
-        adjacencyList.put(3, Arrays.asList(new Combo(1, 18, "flat"), new Combo(4, 12, "swamp"), new Combo(7, 28, "plank")));
-        adjacencyList.put(4, Arrays.asList(new Combo(2, 10, "swamp"), new Combo(3, 12, "swamp"), new Combo(5, 12, "swamp")));
-        adjacencyList.put(5, Arrays.asList(new Combo(4, 12, "swamp"), new Combo(6, 17, "flat"), new Combo(7, 10, "forest")));
-        adjacencyList.put(6, Arrays.asList(new Combo(1, 20, "flat"), new Combo(5, 17, "flat"), new Combo(7, 23, "forest"), new Combo(8, 35, "plank")));
-        adjacencyList.put(7, Arrays.asList(new Combo(5, 10, "forest"), new Combo(6, 23, "forest"), new Combo(8, 19, "flat"), new Combo(9, 17, "flat")));
-        adjacencyList.put(8, Arrays.asList(new Combo(6, 35, "plank"), new Combo(7, 19, "flat"), new Combo(9, 7, "swamp"), new Combo(10, 12, "forest")));
-        adjacencyList.put(9, Arrays.asList(new Combo(7, 17, "flat"), new Combo(8, 7, "swamp"), new Combo(10, 18, "flat")));
-        adjacencyList.put(10, Arrays.asList(new Combo(1, 16, "flat"), new Combo(8, 12, "forest"), new Combo(9, 18, "flat")));
-
-        //display map
-        int[][] graphforPrint = createGraphForPrint(adjacencyList);
-        System.out.print("Map: \n(The starting node is Node 1)\n");
-        System.out.print("   ");
-        for (int j = 1; j < graphforPrint[0].length; j++) {
-            System.out.print(j + " ");
-        }
-        System.out.println();
-        for (int i = 1; i < graphforPrint.length; i++) {
-            // Print row header
-            System.out.print(i + "  ");
-
-            for (int j = 1; j < graphforPrint[i].length; j++) {
-                System.out.print(graphforPrint[i][j] + " ");
-            }
-            System.out.println();
-        }
-
-        //user input enemy node
-        Scanner sc = new Scanner (System.in);
-        int enemyNode;
-        while (true) {
-            System.out.print("\nEnter Enemy Fortress Node [-1 to exit]: ");
-            try {
-                enemyNode = sc.nextInt();
-                if (enemyNode == -1) {
-                    System.out.println();
-                    AttackSimulation.attackSelection();
-                }
-                if ((enemyNode < 1 || enemyNode > 10) && enemyNode != -1) {
-                    throw new IllegalArgumentException("Invalid input. Allowed input:[-1],[2 ~ 10]");
-                }
-                break;
-            } catch (InputMismatchException ex) {
-                System.out.println("Invalid input. Input must be an integer.");
-                // Clear the invalid input
-                sc.next();
-            } catch (IllegalArgumentException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-        sc.nextLine(); // Avoid Scanner skipping line problem
-
-
-        int generalType; //1 for cavalry, 2 for archer, 3 for infantry
-
-        //user input general type
-        System.out.println();
-        System.out.print("Generals\n" +
-                "Cavalry (Speed: 2km/h)\n" +
-                "~ Characters: Sun Quan, Zhou Yu, Tai Shi Ci, Da Qiao, Lu Meng\n"+
-                "\t Flat road - x3\n" +
-                "\t Forest - x0.8\n" +
-                "\t Swamp - x0.3\n" +
-                "\t Plank road - x0.5\n" +
-                "Archer (Speed: 1km/h)\n" +
-                "~ Characters: Zhang Zhao, Xu Sheng, Zhu Ge Jin, Gan Ning\n"+
-                "\t Flat road - x2\n" +
-                "\t Forest - x1\n" +
-                "\t Swamp - x2.5\n" +
-                "\t Plank road - x0.5\n" +
-                "Infantry (Speed: 1km/h)\n" +
-                "~ Characters: Lu Su, Xiao Qiao, Zhou Tai, Huang Gai\n"+
-                "\t Flat road - x2\n" +
-                "\t Forest - x2.5\n" +
-                "\t Swamp - x1\n" +
-                "\t Plank road - x0.5\n"
-
-        );
-
-        String generalName;
-
-        while (true) {
-            System.out.print("\nPick a general by their name[-1 to exit]: ");
-            generalName = sc.nextLine().toLowerCase().trim(); // Convert input to lowercase and trim spaces
-            try {
-                generalType = getGeneralType(generalName);
-
-                if (generalName.equals("")) { // Check for empty input
-                    continue; // Skip the rest of the loop and prompt again
-                }
-
-                if (generalName.equals("-1")) { // exit case
-                    System.out.println();
-                    AttackSimulation.attackSelection();
-                }
-
-                if (!isString(generalName)) { // if input is not a string
-                    throw new IllegalArgumentException("Invalid input. General name must be a string.");
-                }
-
-                if (generalType == 0) { //if input is a string, but not a name in the game
-                    throw new IllegalArgumentException("General not found.");
-                }
-                break;
-            } catch (IllegalArgumentException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-
-        int startNode = 1; // Starting node
-
-        AttackAdvanced.dijkstra(createGraph(adjacencyList, generalType), startNode, enemyNode, generalType);
     }
 }
