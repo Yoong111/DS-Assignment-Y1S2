@@ -1,7 +1,5 @@
 package assignment_ds;
 
-
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -680,14 +678,11 @@ public class RedCliffOnFire extends Node{
             draw("Would you like to input a text file, or use line by line input? [Choose option 1 or 2(-1 to exit)]");
         }
 
-
-
     }
     public static void test() throws IOException {
         Node A = Wormhole(gastoninter(gastonmultiplexer(csvremove(Desktopreadshelf("Boston")))));
         Ranks tau = ClusterBucket(A);
         tau.vent();
     }
-
 
 }
