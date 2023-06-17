@@ -172,6 +172,3 @@ public class Ranks extends Node{
         Rail.vent();
     }
 }
-
-
-
